@@ -1,0 +1,60 @@
+with-expecter: true
+filename: "mock_{{.InterfaceName | snakecase}}.go"
+dir: "mocks/{{.InterfaceDirRelative}}"
+disable-version-string: true
+packages:
+  # Internal Packages
+  github.com/cosmos/eureka-relayer/relayerapi/services/relayerapi:
+    interfaces:
+      RelayerAPIQueries:
+  github.com/cosmos/eureka-relayer/shared/evmrpc:
+    interfaces:
+      EVMRPCClientManager:
+      EVMChainRPC:
+  github.com/cosmos/eureka-relayer/shared/http:
+    interfaces:
+      Client:
+  github.com/cosmos/eureka-relayer/shared/messagequeue/transactionqueue:
+    interfaces:
+      ProducerTransactionQueue:
+  github.com/cosmos/eureka-relayer/shared/tmrpc:
+    interfaces:
+      TendermintRPCClientManager:
+      TendermintRPCQuerier:
+  github.com/cosmos/eureka-relayer/shared/signing:
+    interfaces:
+      Signer:
+  github.com/cosmos/eureka-relayer/shared/clients/coingecko:
+    interfaces:
+      PriceClient:
+  github.com/cosmos/eureka-relayer/shared/clients/utils:
+    interfaces:
+      HTTPClient:
+      RateLimiter:
+  github.com/cosmos/eureka-relayer/shared/bridges/eureka:
+    interfaces:
+      BridgeClient:
+  github.com/cosmos/eureka-relayer/shared/config:
+    interfaces:
+      ConfigReader:
+  github.com/cosmos/eureka-relayer/relayer/eureka:
+    interfaces:
+      EurekaProcessor:
+      EurekaBatchProcessor:
+      TransferStateStorage:
+      UnfinishedEurekaTransferStorage:
+      Storage:
+      BridgeClientManager:
+      PipelineManager:
+      PriceClient:
+  github.com/cosmos/eureka-relayer/proto/gen/eurekarelayer:
+    interfaces:
+      RelayerServiceClient:
+
+  # External Packages
+  github.com/ethereum/go-ethereum/accounts/abi/bind:
+    interfaces:
+      ContractBackend:
+  github.com/cometbft/cometbft/rpc/client:
+    interfaces:
+      Client:

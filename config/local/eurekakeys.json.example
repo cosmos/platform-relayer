@@ -1,0 +1,27 @@
+{
+  "11155111": {
+    "name": "Ethereum Testnet (Sepolia)",
+    "address": "0xBbA433BE673Bb680c6fC1C252339b9B48830F32e",
+    "private_key": "0xd0e1d5403ed5cbbbeca945b8eabbbe8190355d45d48444892e3c1e01c5f35bf0"
+  },
+  "1": {
+    "name": "Ethereum Testnet (Sepolia)",
+    "address": "0xBbA433BE673Bb680c6fC1C252339b9B48830F32e",
+    "private_key": "0xd0e1d5403ed5cbbbeca945b8eabbbe8190355d45d48444892e3c1e01c5f35bf0"
+  },
+  "provider": {
+    "name": "Cosmoshub Testnet",
+    "address": "cosmo1sylrfxq34s56n5e322k8mmaxmqjvur38m87r97",
+    "private_key": "0xd0e1d5403ed5cbbbeca945b8eabbbe8190355d45d48444892e3c1e01c5f35bf0"
+  },
+  "cosmoshub-4": {
+    "name": "Cosmoshub",
+    "address": "cosmo1sylrfxq34s56n5e322k8mmaxmqjvur38m87r97",
+    "private_key": "0xd0e1d5403ed5cbbbeca945b8eabbbe8190355d45d48444892e3c1e01c5f35bf0"
+  },
+  "84532": {
+    "name": "Base Testnet (Sepolia)",
+    "address": "0xBbA433BE673Bb680c6fC1C252339b9B48830F32e",
+    "private_key": "0xd0e1d5403ed5cbbbeca945b8eabbbe8190355d45d48444892e3c1e01c5f35bf0"
+  }
+}
