@@ -5,7 +5,7 @@ IBC v2 Relayer is a relaying service for the IBC v2 Protocol. The relayer suppor
 ## Relaying Sequence
 ![Relaying Sequence](./relaying-sequence.png)
 
-## Supported Features 
+## Supported Features
 
 - Compatible with all major EVM chains (Ethereum, Base, Optimism, Arbitrum, Polygon, and more)
 - Request-driven design for configurable, on-demand relaying
@@ -480,4 +480,8 @@ To implement your own signer service, refer to the proto file for message format
 
 
 **Authentication:** The relayer sends the `SERVICE_ACCOUNT_TOKEN` environment variable as a bearer token in the `authorization` gRPC metadata header. Validation is optional.
+
+
+
+
 
