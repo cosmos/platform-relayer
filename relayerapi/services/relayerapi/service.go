@@ -6,13 +6,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgconn"
-	"github.com/jackc/pgx/v5/pgtype"
-	"go.uber.org/zap"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	protorelayerapi "github.com/cosmos/eureka-relayer/proto/gen/relayerapi"
 	"github.com/cosmos/eureka-relayer/relayer/eureka"
@@ -20,6 +13,12 @@ import (
 	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"github.com/cosmos/eureka-relayer/shared/metrics"
 	"github.com/cosmos/eureka-relayer/shared/utils"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
+	"github.com/jackc/pgx/v5/pgtype"
+	"go.uber.org/zap"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 const (

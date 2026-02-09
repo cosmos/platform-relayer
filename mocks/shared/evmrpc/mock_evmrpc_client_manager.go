@@ -4,8 +4,8 @@ package evmrpc
 
 import (
 	context "context"
-	evmrpc "github.com/cosmos/eureka-relayer/shared/evmrpc"
 
+	evmrpc "github.com/cosmos/eureka-relayer/shared/evmrpc"
 	mock "github.com/stretchr/testify/mock"
 )
 

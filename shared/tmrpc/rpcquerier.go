@@ -12,7 +12,6 @@ import (
 	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-
 	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/cosmos/eureka-relayer/shared/utils"
 )

@@ -4,8 +4,8 @@ package tmrpc
 
 import (
 	context "context"
-	tmrpc "github.com/cosmos/eureka-relayer/shared/tmrpc"
 
+	tmrpc "github.com/cosmos/eureka-relayer/shared/tmrpc"
 	mock "github.com/stretchr/testify/mock"
 )
 

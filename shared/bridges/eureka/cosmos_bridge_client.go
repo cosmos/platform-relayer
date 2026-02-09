@@ -29,12 +29,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/tx"
 	auth_types "github.com/cosmos/cosmos-sdk/x/auth/types"
 	bank_types "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/cosmos/gogoproto/proto"
-	"go.uber.org/zap"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	ibc_channel_v2_types "github.com/cosmos/eureka-relayer/proto/gen/ibc/core/channel/v2"
 	ibc_client_v1_types "github.com/cosmos/eureka-relayer/proto/gen/ibc/core/client/v1"
@@ -43,6 +37,11 @@ import (
 	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"github.com/cosmos/eureka-relayer/shared/signing"
+	"github.com/cosmos/gogoproto/proto"
+	"go.uber.org/zap"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 const (

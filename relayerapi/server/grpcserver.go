@@ -6,14 +6,6 @@ import (
 	"net"
 	"net/http"
 
-	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/soheilhy/cmux"
-	"go.uber.org/zap"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/health/grpc_health_v1"
-	"google.golang.org/grpc/reflection"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	genrelayservice "github.com/cosmos/eureka-relayer/proto/gen/relayerapi"
 	"github.com/cosmos/eureka-relayer/relayer/eureka"
@@ -22,6 +14,13 @@ import (
 	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"github.com/cosmos/eureka-relayer/shared/metrics"
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/soheilhy/cmux"
+	"go.uber.org/zap"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/health/grpc_health_v1"
+	"google.golang.org/grpc/reflection"
 )
 
 type RelayerGRPCServer struct {

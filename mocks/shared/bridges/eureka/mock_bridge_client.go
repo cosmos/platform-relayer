@@ -4,8 +4,9 @@ package eureka
 
 import (
 	context "context"
-	config "github.com/cosmos/eureka-relayer/shared/config"
 	big "math/big"
+
+	config "github.com/cosmos/eureka-relayer/shared/config"
 
 	db "github.com/cosmos/eureka-relayer/db/gen/db"
 
@@ -375,6 +376,63 @@ func (_c *MockBridgeClient_FindTimeoutTx_Call) RunAndReturn(run func(context.Con
 	return _c
 }
 
+// GetTransactionSender provides a mock function with given fields: ctx, hash
+func (_m *MockBridgeClient) GetTransactionSender(ctx context.Context, hash string) (string, error) {
+	ret := _m.Called(ctx, hash)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetTransactionSender")
+	}
+
+	var r0 string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) (string, error)); ok {
+		return rf(ctx, hash)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string) string); ok {
+		r0 = rf(ctx, hash)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, hash)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockBridgeClient_GetTransactionSender_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetTransactionSender'
+type MockBridgeClient_GetTransactionSender_Call struct {
+	*mock.Call
+}
+
+// GetTransactionSender is a helper method to define mock.On call
+//   - ctx context.Context
+//   - hash string
+func (_e *MockBridgeClient_Expecter) GetTransactionSender(ctx interface{}, hash interface{}) *MockBridgeClient_GetTransactionSender_Call {
+	return &MockBridgeClient_GetTransactionSender_Call{Call: _e.mock.On("GetTransactionSender", ctx, hash)}
+}
+
+func (_c *MockBridgeClient_GetTransactionSender_Call) Run(run func(ctx context.Context, hash string)) *MockBridgeClient_GetTransactionSender_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(string))
+	})
+	return _c
+}
+
+func (_c *MockBridgeClient_GetTransactionSender_Call) Return(_a0 string, _a1 error) *MockBridgeClient_GetTransactionSender_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockBridgeClient_GetTransactionSender_Call) RunAndReturn(run func(context.Context, string) (string, error)) *MockBridgeClient_GetTransactionSender_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // IsPacketCommitted provides a mock function with given fields: ctx, clientID, sequence
 func (_m *MockBridgeClient) IsPacketCommitted(ctx context.Context, clientID string, sequence uint64) (bool, error) {
 	ret := _m.Called(ctx, clientID, sequence)
@@ -491,9 +549,67 @@ func (_c *MockBridgeClient_IsPacketReceived_Call) RunAndReturn(run func(context.
 	return _c
 }
 
-// IsTxFinalized provides a mock function with given fields: ctx, tsHash
-func (_m *MockBridgeClient) IsTxFinalized(ctx context.Context, tsHash string) (bool, error) {
-	ret := _m.Called(ctx, tsHash)
+// IsTimestampFinalized provides a mock function with given fields: ctx, timestamp, offset
+func (_m *MockBridgeClient) IsTimestampFinalized(ctx context.Context, timestamp time.Time, offset *uint64) (bool, error) {
+	ret := _m.Called(ctx, timestamp, offset)
+
+	if len(ret) == 0 {
+		panic("no return value specified for IsTimestampFinalized")
+	}
+
+	var r0 bool
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, time.Time, *uint64) (bool, error)); ok {
+		return rf(ctx, timestamp, offset)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, time.Time, *uint64) bool); ok {
+		r0 = rf(ctx, timestamp, offset)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, time.Time, *uint64) error); ok {
+		r1 = rf(ctx, timestamp, offset)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockBridgeClient_IsTimestampFinalized_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'IsTimestampFinalized'
+type MockBridgeClient_IsTimestampFinalized_Call struct {
+	*mock.Call
+}
+
+// IsTimestampFinalized is a helper method to define mock.On call
+//   - ctx context.Context
+//   - timestamp time.Time
+//   - offset *uint64
+func (_e *MockBridgeClient_Expecter) IsTimestampFinalized(ctx interface{}, timestamp interface{}, offset interface{}) *MockBridgeClient_IsTimestampFinalized_Call {
+	return &MockBridgeClient_IsTimestampFinalized_Call{Call: _e.mock.On("IsTimestampFinalized", ctx, timestamp, offset)}
+}
+
+func (_c *MockBridgeClient_IsTimestampFinalized_Call) Run(run func(ctx context.Context, timestamp time.Time, offset *uint64)) *MockBridgeClient_IsTimestampFinalized_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(time.Time), args[2].(*uint64))
+	})
+	return _c
+}
+
+func (_c *MockBridgeClient_IsTimestampFinalized_Call) Return(_a0 bool, _a1 error) *MockBridgeClient_IsTimestampFinalized_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockBridgeClient_IsTimestampFinalized_Call) RunAndReturn(run func(context.Context, time.Time, *uint64) (bool, error)) *MockBridgeClient_IsTimestampFinalized_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// IsTxFinalized provides a mock function with given fields: ctx, txHash, offset
+func (_m *MockBridgeClient) IsTxFinalized(ctx context.Context, txHash string, offset *uint64) (bool, error) {
+	ret := _m.Called(ctx, txHash, offset)
 
 	if len(ret) == 0 {
 		panic("no return value specified for IsTxFinalized")
@@ -501,17 +617,17 @@ func (_m *MockBridgeClient) IsTxFinalized(ctx context.Context, tsHash string) (b
 
 	var r0 bool
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) (bool, error)); ok {
-		return rf(ctx, tsHash)
+	if rf, ok := ret.Get(0).(func(context.Context, string, *uint64) (bool, error)); ok {
+		return rf(ctx, txHash, offset)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string) bool); ok {
-		r0 = rf(ctx, tsHash)
+	if rf, ok := ret.Get(0).(func(context.Context, string, *uint64) bool); ok {
+		r0 = rf(ctx, txHash, offset)
 	} else {
 		r0 = ret.Get(0).(bool)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
-		r1 = rf(ctx, tsHash)
+	if rf, ok := ret.Get(1).(func(context.Context, string, *uint64) error); ok {
+		r1 = rf(ctx, txHash, offset)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -526,14 +642,15 @@ type MockBridgeClient_IsTxFinalized_Call struct {
 
 // IsTxFinalized is a helper method to define mock.On call
 //   - ctx context.Context
-//   - tsHash string
-func (_e *MockBridgeClient_Expecter) IsTxFinalized(ctx interface{}, tsHash interface{}) *MockBridgeClient_IsTxFinalized_Call {
-	return &MockBridgeClient_IsTxFinalized_Call{Call: _e.mock.On("IsTxFinalized", ctx, tsHash)}
+//   - txHash string
+//   - offset *uint64
+func (_e *MockBridgeClient_Expecter) IsTxFinalized(ctx interface{}, txHash interface{}, offset interface{}) *MockBridgeClient_IsTxFinalized_Call {
+	return &MockBridgeClient_IsTxFinalized_Call{Call: _e.mock.On("IsTxFinalized", ctx, txHash, offset)}
 }
 
-func (_c *MockBridgeClient_IsTxFinalized_Call) Run(run func(ctx context.Context, tsHash string)) *MockBridgeClient_IsTxFinalized_Call {
+func (_c *MockBridgeClient_IsTxFinalized_Call) Run(run func(ctx context.Context, txHash string, offset *uint64)) *MockBridgeClient_IsTxFinalized_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(string))
+		run(args[0].(context.Context), args[1].(string), args[2].(*uint64))
 	})
 	return _c
 }
@@ -543,7 +660,7 @@ func (_c *MockBridgeClient_IsTxFinalized_Call) Return(_a0 bool, _a1 error) *Mock
 	return _c
 }
 
-func (_c *MockBridgeClient_IsTxFinalized_Call) RunAndReturn(run func(context.Context, string) (bool, error)) *MockBridgeClient_IsTxFinalized_Call {
+func (_c *MockBridgeClient_IsTxFinalized_Call) RunAndReturn(run func(context.Context, string, *uint64) (bool, error)) *MockBridgeClient_IsTxFinalized_Call {
 	_c.Call.Return(run)
 	return _c
 }

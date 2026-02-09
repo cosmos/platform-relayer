@@ -5,12 +5,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"github.com/cosmos/eureka-relayer/relayer/eureka"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
+	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewEurekaTransfer(t *testing.T) {

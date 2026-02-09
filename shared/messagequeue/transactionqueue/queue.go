@@ -4,9 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
-
 	"github.com/cosmos/eureka-relayer/shared/messagequeue"
+	"github.com/redis/go-redis/v9"
 )
 
 type Transaction struct {

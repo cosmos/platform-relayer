@@ -6,12 +6,11 @@ import (
 	"fmt"
 	"time"
 
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/relayer/eureka"
 	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"github.com/cosmos/eureka-relayer/shared/metrics"
+	"go.uber.org/zap"
 )
 
 type GasMonitor struct {

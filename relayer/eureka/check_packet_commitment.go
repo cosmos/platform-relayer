@@ -6,12 +6,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/cosmos/eureka-relayer/db/gen/db"
+	"github.com/cosmos/eureka-relayer/shared/bridges/eureka"
 	"github.com/jackc/pgx/v5/pgtype"
 	"go.uber.org/zap"
 	"golang.org/x/sync/errgroup"
-
-	"github.com/cosmos/eureka-relayer/db/gen/db"
-	"github.com/cosmos/eureka-relayer/shared/bridges/eureka"
 )
 
 type TransferAckTimeoutTxStorage interface {

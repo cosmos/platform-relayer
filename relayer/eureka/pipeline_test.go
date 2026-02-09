@@ -7,9 +7,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	mock_relay_service "github.com/cosmos/eureka-relayer/mocks/proto/gen/eurekarelayer"
 	mock_eureka "github.com/cosmos/eureka-relayer/mocks/relayer/eureka"
@@ -19,6 +16,8 @@ import (
 	"github.com/cosmos/eureka-relayer/relayer/eureka"
 	eureka_bridge "github.com/cosmos/eureka-relayer/shared/bridges/eureka"
 	"github.com/cosmos/eureka-relayer/shared/config"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 const (

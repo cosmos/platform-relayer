@@ -8,11 +8,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/stretchr/testify/mock"
-	"github.com/stretchr/testify/suite"
-
 	"github.com/cosmos/eureka-relayer/mocks/shared/clients/utils"
 	"github.com/cosmos/eureka-relayer/shared/clients/coingecko"
+	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/suite"
 )
 
 type CoingeckoClientTestSuite struct {

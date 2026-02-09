@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/ethereum/go-ethereum/ethclient"
 	ethereumrpc "github.com/ethereum/go-ethereum/rpc"
-
-	"github.com/cosmos/eureka-relayer/shared/config"
 )
 
 type EVMRPCClientManager interface {

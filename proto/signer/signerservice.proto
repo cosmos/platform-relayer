@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package skip.signer.signerservice;
+package signerservice;
 
 option go_package = "github.com/cosmos/eureka-relayer/proto/gen/signer";
 

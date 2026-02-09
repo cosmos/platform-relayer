@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/cosmos/eureka-relayer/shared/metrics"
+	"go.uber.org/zap"
 )
 
 func (e *EurekaTransfer) RecordRecvSendLatency(ctx context.Context) {

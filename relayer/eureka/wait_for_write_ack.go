@@ -5,12 +5,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/jackc/pgx/v5/pgtype"
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"github.com/cosmos/eureka-relayer/shared/bridges/eureka"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
+	"github.com/jackc/pgx/v5/pgtype"
+	"go.uber.org/zap"
 )
 
 type TransferWriteAckTxStorage interface {

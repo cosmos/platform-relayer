@@ -4,8 +4,8 @@ package relayerapi
 
 import (
 	context "context"
-	db "github.com/cosmos/eureka-relayer/db/gen/db"
 
+	db "github.com/cosmos/eureka-relayer/db/gen/db"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -20,6 +20,122 @@ type MockRelayerAPIQueries_Expecter struct {
 
 func (_m *MockRelayerAPIQueries) EXPECT() *MockRelayerAPIQueries_Expecter {
 	return &MockRelayerAPIQueries_Expecter{mock: &_m.Mock}
+}
+
+// GetRelaySubmission provides a mock function with given fields: ctx, arg
+func (_m *MockRelayerAPIQueries) GetRelaySubmission(ctx context.Context, arg db.GetRelaySubmissionParams) (db.EurekaRelaySubmission, error) {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetRelaySubmission")
+	}
+
+	var r0 db.EurekaRelaySubmission
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, db.GetRelaySubmissionParams) (db.EurekaRelaySubmission, error)); ok {
+		return rf(ctx, arg)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, db.GetRelaySubmissionParams) db.EurekaRelaySubmission); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Get(0).(db.EurekaRelaySubmission)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, db.GetRelaySubmissionParams) error); ok {
+		r1 = rf(ctx, arg)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockRelayerAPIQueries_GetRelaySubmission_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetRelaySubmission'
+type MockRelayerAPIQueries_GetRelaySubmission_Call struct {
+	*mock.Call
+}
+
+// GetRelaySubmission is a helper method to define mock.On call
+//   - ctx context.Context
+//   - arg db.GetRelaySubmissionParams
+func (_e *MockRelayerAPIQueries_Expecter) GetRelaySubmission(ctx interface{}, arg interface{}) *MockRelayerAPIQueries_GetRelaySubmission_Call {
+	return &MockRelayerAPIQueries_GetRelaySubmission_Call{Call: _e.mock.On("GetRelaySubmission", ctx, arg)}
+}
+
+func (_c *MockRelayerAPIQueries_GetRelaySubmission_Call) Run(run func(ctx context.Context, arg db.GetRelaySubmissionParams)) *MockRelayerAPIQueries_GetRelaySubmission_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(db.GetRelaySubmissionParams))
+	})
+	return _c
+}
+
+func (_c *MockRelayerAPIQueries_GetRelaySubmission_Call) Return(_a0 db.EurekaRelaySubmission, _a1 error) *MockRelayerAPIQueries_GetRelaySubmission_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockRelayerAPIQueries_GetRelaySubmission_Call) RunAndReturn(run func(context.Context, db.GetRelaySubmissionParams) (db.EurekaRelaySubmission, error)) *MockRelayerAPIQueries_GetRelaySubmission_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetTransfersBySourceTx provides a mock function with given fields: ctx, arg
+func (_m *MockRelayerAPIQueries) GetTransfersBySourceTx(ctx context.Context, arg db.GetTransfersBySourceTxParams) ([]db.EurekaTransfer, error) {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetTransfersBySourceTx")
+	}
+
+	var r0 []db.EurekaTransfer
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, db.GetTransfersBySourceTxParams) ([]db.EurekaTransfer, error)); ok {
+		return rf(ctx, arg)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, db.GetTransfersBySourceTxParams) []db.EurekaTransfer); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]db.EurekaTransfer)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, db.GetTransfersBySourceTxParams) error); ok {
+		r1 = rf(ctx, arg)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockRelayerAPIQueries_GetTransfersBySourceTx_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetTransfersBySourceTx'
+type MockRelayerAPIQueries_GetTransfersBySourceTx_Call struct {
+	*mock.Call
+}
+
+// GetTransfersBySourceTx is a helper method to define mock.On call
+//   - ctx context.Context
+//   - arg db.GetTransfersBySourceTxParams
+func (_e *MockRelayerAPIQueries_Expecter) GetTransfersBySourceTx(ctx interface{}, arg interface{}) *MockRelayerAPIQueries_GetTransfersBySourceTx_Call {
+	return &MockRelayerAPIQueries_GetTransfersBySourceTx_Call{Call: _e.mock.On("GetTransfersBySourceTx", ctx, arg)}
+}
+
+func (_c *MockRelayerAPIQueries_GetTransfersBySourceTx_Call) Run(run func(ctx context.Context, arg db.GetTransfersBySourceTxParams)) *MockRelayerAPIQueries_GetTransfersBySourceTx_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(db.GetTransfersBySourceTxParams))
+	})
+	return _c
+}
+
+func (_c *MockRelayerAPIQueries_GetTransfersBySourceTx_Call) Return(_a0 []db.EurekaTransfer, _a1 error) *MockRelayerAPIQueries_GetTransfersBySourceTx_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockRelayerAPIQueries_GetTransfersBySourceTx_Call) RunAndReturn(run func(context.Context, db.GetTransfersBySourceTxParams) ([]db.EurekaTransfer, error)) *MockRelayerAPIQueries_GetTransfersBySourceTx_Call {
+	_c.Call.Return(run)
+	return _c
 }
 
 // InsertEurekaTransfer provides a mock function with given fields: ctx, arg
@@ -65,6 +181,53 @@ func (_c *MockRelayerAPIQueries_InsertEurekaTransfer_Call) Return(_a0 error) *Mo
 }
 
 func (_c *MockRelayerAPIQueries_InsertEurekaTransfer_Call) RunAndReturn(run func(context.Context, db.InsertEurekaTransferParams) error) *MockRelayerAPIQueries_InsertEurekaTransfer_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// InsertRelaySubmission provides a mock function with given fields: ctx, arg
+func (_m *MockRelayerAPIQueries) InsertRelaySubmission(ctx context.Context, arg db.InsertRelaySubmissionParams) error {
+	ret := _m.Called(ctx, arg)
+
+	if len(ret) == 0 {
+		panic("no return value specified for InsertRelaySubmission")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, db.InsertRelaySubmissionParams) error); ok {
+		r0 = rf(ctx, arg)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockRelayerAPIQueries_InsertRelaySubmission_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'InsertRelaySubmission'
+type MockRelayerAPIQueries_InsertRelaySubmission_Call struct {
+	*mock.Call
+}
+
+// InsertRelaySubmission is a helper method to define mock.On call
+//   - ctx context.Context
+//   - arg db.InsertRelaySubmissionParams
+func (_e *MockRelayerAPIQueries_Expecter) InsertRelaySubmission(ctx interface{}, arg interface{}) *MockRelayerAPIQueries_InsertRelaySubmission_Call {
+	return &MockRelayerAPIQueries_InsertRelaySubmission_Call{Call: _e.mock.On("InsertRelaySubmission", ctx, arg)}
+}
+
+func (_c *MockRelayerAPIQueries_InsertRelaySubmission_Call) Run(run func(ctx context.Context, arg db.InsertRelaySubmissionParams)) *MockRelayerAPIQueries_InsertRelaySubmission_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(db.InsertRelaySubmissionParams))
+	})
+	return _c
+}
+
+func (_c *MockRelayerAPIQueries_InsertRelaySubmission_Call) Return(_a0 error) *MockRelayerAPIQueries_InsertRelaySubmission_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockRelayerAPIQueries_InsertRelaySubmission_Call) RunAndReturn(run func(context.Context, db.InsertRelaySubmissionParams) error) *MockRelayerAPIQueries_InsertRelaySubmission_Call {
 	_c.Call.Return(run)
 	return _c
 }

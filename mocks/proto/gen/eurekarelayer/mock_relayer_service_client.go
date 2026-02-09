@@ -4,8 +4,8 @@ package eurekarelayer
 
 import (
 	context "context"
-	eurekarelayer "github.com/cosmos/eureka-relayer/proto/gen/eurekarelayer"
 
+	eurekarelayer "github.com/cosmos/eureka-relayer/proto/gen/eurekarelayer"
 	grpc "google.golang.org/grpc"
 
 	mock "github.com/stretchr/testify/mock"

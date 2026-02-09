@@ -4,8 +4,8 @@ package eureka
 
 import (
 	context "context"
-	eureka "github.com/cosmos/eureka-relayer/relayer/eureka"
 
+	eureka "github.com/cosmos/eureka-relayer/relayer/eureka"
 	mock "github.com/stretchr/testify/mock"
 )
 

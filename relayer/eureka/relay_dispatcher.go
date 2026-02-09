@@ -6,10 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
+	"go.uber.org/zap"
 )
 
 type UnfinishedEurekaTransferStorage interface {

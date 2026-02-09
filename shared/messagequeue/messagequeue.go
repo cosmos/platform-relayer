@@ -5,10 +5,9 @@ import (
 	"errors"
 	"time"
 
+	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
-
-	"github.com/cosmos/eureka-relayer/shared/lmt"
 )
 
 type MessageQueue struct {
