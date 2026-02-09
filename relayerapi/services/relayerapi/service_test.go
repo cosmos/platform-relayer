@@ -6,14 +6,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/stretchr/testify/mock"
-	"github.com/stretchr/testify/suite"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/proto"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	eurekamocks "github.com/cosmos/eureka-relayer/mocks/relayer/eureka"
 	relayerapimocks "github.com/cosmos/eureka-relayer/mocks/relayerapi/services/relayerapi"
@@ -22,6 +14,13 @@ import (
 	"github.com/cosmos/eureka-relayer/relayerapi/services/relayerapi"
 	"github.com/cosmos/eureka-relayer/shared/bridges/eureka"
 	"github.com/cosmos/eureka-relayer/shared/config"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/suite"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/proto"
 )
 
 type RelayerAPIServiceSuite struct {

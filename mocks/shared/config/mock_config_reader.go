@@ -815,6 +815,51 @@ func (_c *MockConfigReader_GetRPCEndpoint_Call) RunAndReturn(run func(string) (s
 	return _c
 }
 
+// GetRelayerAPIConfig provides a mock function with no fields
+func (_m *MockConfigReader) GetRelayerAPIConfig() config.RelayerAPIConfig {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetRelayerAPIConfig")
+	}
+
+	var r0 config.RelayerAPIConfig
+	if rf, ok := ret.Get(0).(func() config.RelayerAPIConfig); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(config.RelayerAPIConfig)
+	}
+
+	return r0
+}
+
+// MockConfigReader_GetRelayerAPIConfig_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetRelayerAPIConfig'
+type MockConfigReader_GetRelayerAPIConfig_Call struct {
+	*mock.Call
+}
+
+// GetRelayerAPIConfig is a helper method to define mock.On call
+func (_e *MockConfigReader_Expecter) GetRelayerAPIConfig() *MockConfigReader_GetRelayerAPIConfig_Call {
+	return &MockConfigReader_GetRelayerAPIConfig_Call{Call: _e.mock.On("GetRelayerAPIConfig")}
+}
+
+func (_c *MockConfigReader_GetRelayerAPIConfig_Call) Run(run func()) *MockConfigReader_GetRelayerAPIConfig_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *MockConfigReader_GetRelayerAPIConfig_Call) Return(_a0 config.RelayerAPIConfig) *MockConfigReader_GetRelayerAPIConfig_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockConfigReader_GetRelayerAPIConfig_Call) RunAndReturn(run func() config.RelayerAPIConfig) *MockConfigReader_GetRelayerAPIConfig_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // GetSignerGasAlertThresholds provides a mock function with given fields: chainID, bridgeType
 func (_m *MockConfigReader) GetSignerGasAlertThresholds(chainID string, bridgeType config.BridgeType) (*big.Int, *big.Int, error) {
 	ret := _m.Called(chainID, bridgeType)

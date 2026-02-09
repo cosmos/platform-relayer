@@ -4,11 +4,10 @@ import (
 	"context"
 	"errors"
 
+	"github.com/cosmos/eureka-relayer/shared/signing"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
-
-	"github.com/cosmos/eureka-relayer/shared/signing"
 )
 
 func EthereumSignerToBindSignerFn(ctx context.Context, signer signing.Signer, chainID string) bind.SignerFn {

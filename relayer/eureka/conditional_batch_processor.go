@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/deliveryhero/pipeline/v2"
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"github.com/cosmos/eureka-relayer/shared/metrics"
+	"github.com/deliveryhero/pipeline/v2"
+	"go.uber.org/zap"
 )
 
 func ConditionallyBatchProcess(

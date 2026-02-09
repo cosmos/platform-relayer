@@ -6,12 +6,11 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	mock_eureka "github.com/cosmos/eureka-relayer/mocks/relayer/eureka"
 	"github.com/cosmos/eureka-relayer/relayer/eureka"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestEurekaProcessorMW_Process(t *testing.T) {

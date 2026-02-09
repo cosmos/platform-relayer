@@ -3,8 +3,9 @@
 package signing
 
 import (
-	signing "github.com/cosmos/eureka-relayer/shared/signing"
+	context "context"
 
+	signing "github.com/cosmos/eureka-relayer/shared/signing"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -21,17 +22,17 @@ func (_m *MockSigner) EXPECT() *MockSigner_Expecter {
 	return &MockSigner_Expecter{mock: &_m.Mock}
 }
 
-// Address provides a mock function with no fields
-func (_m *MockSigner) Address() []byte {
-	ret := _m.Called()
+// Address provides a mock function with given fields: ctx
+func (_m *MockSigner) Address(ctx context.Context) []byte {
+	ret := _m.Called(ctx)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Address")
 	}
 
 	var r0 []byte
-	if rf, ok := ret.Get(0).(func() []byte); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(context.Context) []byte); ok {
+		r0 = rf(ctx)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]byte)
@@ -47,13 +48,14 @@ type MockSigner_Address_Call struct {
 }
 
 // Address is a helper method to define mock.On call
-func (_e *MockSigner_Expecter) Address() *MockSigner_Address_Call {
-	return &MockSigner_Address_Call{Call: _e.mock.On("Address")}
+//   - ctx context.Context
+func (_e *MockSigner_Expecter) Address(ctx interface{}) *MockSigner_Address_Call {
+	return &MockSigner_Address_Call{Call: _e.mock.On("Address", ctx)}
 }
 
-func (_c *MockSigner_Address_Call) Run(run func()) *MockSigner_Address_Call {
+func (_c *MockSigner_Address_Call) Run(run func(ctx context.Context)) *MockSigner_Address_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run()
+		run(args[0].(context.Context))
 	})
 	return _c
 }
@@ -63,14 +65,14 @@ func (_c *MockSigner_Address_Call) Return(_a0 []byte) *MockSigner_Address_Call {
 	return _c
 }
 
-func (_c *MockSigner_Address_Call) RunAndReturn(run func() []byte) *MockSigner_Address_Call {
+func (_c *MockSigner_Address_Call) RunAndReturn(run func(context.Context) []byte) *MockSigner_Address_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
-// Sign provides a mock function with given fields: chainID, tx
-func (_m *MockSigner) Sign(chainID string, tx signing.Transaction) (signing.Transaction, error) {
-	ret := _m.Called(chainID, tx)
+// Sign provides a mock function with given fields: ctx, chainID, tx
+func (_m *MockSigner) Sign(ctx context.Context, chainID string, tx signing.Transaction) (signing.Transaction, error) {
+	ret := _m.Called(ctx, chainID, tx)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Sign")
@@ -78,19 +80,19 @@ func (_m *MockSigner) Sign(chainID string, tx signing.Transaction) (signing.Tran
 
 	var r0 signing.Transaction
 	var r1 error
-	if rf, ok := ret.Get(0).(func(string, signing.Transaction) (signing.Transaction, error)); ok {
-		return rf(chainID, tx)
+	if rf, ok := ret.Get(0).(func(context.Context, string, signing.Transaction) (signing.Transaction, error)); ok {
+		return rf(ctx, chainID, tx)
 	}
-	if rf, ok := ret.Get(0).(func(string, signing.Transaction) signing.Transaction); ok {
-		r0 = rf(chainID, tx)
+	if rf, ok := ret.Get(0).(func(context.Context, string, signing.Transaction) signing.Transaction); ok {
+		r0 = rf(ctx, chainID, tx)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(signing.Transaction)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(string, signing.Transaction) error); ok {
-		r1 = rf(chainID, tx)
+	if rf, ok := ret.Get(1).(func(context.Context, string, signing.Transaction) error); ok {
+		r1 = rf(ctx, chainID, tx)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -104,15 +106,16 @@ type MockSigner_Sign_Call struct {
 }
 
 // Sign is a helper method to define mock.On call
+//   - ctx context.Context
 //   - chainID string
 //   - tx signing.Transaction
-func (_e *MockSigner_Expecter) Sign(chainID interface{}, tx interface{}) *MockSigner_Sign_Call {
-	return &MockSigner_Sign_Call{Call: _e.mock.On("Sign", chainID, tx)}
+func (_e *MockSigner_Expecter) Sign(ctx interface{}, chainID interface{}, tx interface{}) *MockSigner_Sign_Call {
+	return &MockSigner_Sign_Call{Call: _e.mock.On("Sign", ctx, chainID, tx)}
 }
 
-func (_c *MockSigner_Sign_Call) Run(run func(chainID string, tx signing.Transaction)) *MockSigner_Sign_Call {
+func (_c *MockSigner_Sign_Call) Run(run func(ctx context.Context, chainID string, tx signing.Transaction)) *MockSigner_Sign_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(string), args[1].(signing.Transaction))
+		run(args[0].(context.Context), args[1].(string), args[2].(signing.Transaction))
 	})
 	return _c
 }
@@ -122,7 +125,7 @@ func (_c *MockSigner_Sign_Call) Return(_a0 signing.Transaction, _a1 error) *Mock
 	return _c
 }
 
-func (_c *MockSigner_Sign_Call) RunAndReturn(run func(string, signing.Transaction) (signing.Transaction, error)) *MockSigner_Sign_Call {
+func (_c *MockSigner_Sign_Call) RunAndReturn(run func(context.Context, string, signing.Transaction) (signing.Transaction, error)) *MockSigner_Sign_Call {
 	_c.Call.Return(run)
 	return _c
 }

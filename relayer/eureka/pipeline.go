@@ -6,14 +6,13 @@ import (
 	"math/big"
 	"sync"
 
-	"github.com/deliveryhero/pipeline/v2"
-	"github.com/jackc/pgx/v5/pgtype"
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/proto/gen/eurekarelayer"
 	"github.com/cosmos/eureka-relayer/shared/clients/coingecko"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"github.com/cosmos/eureka-relayer/shared/metrics"
+	"github.com/deliveryhero/pipeline/v2"
+	"github.com/jackc/pgx/v5/pgtype"
+	"go.uber.org/zap"
 )
 
 type EurekaPipeline interface {

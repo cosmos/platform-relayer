@@ -6,9 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/cosmos/eureka-relayer/shared/bridges/eureka"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestOnceWithKey_Do(t *testing.T) {

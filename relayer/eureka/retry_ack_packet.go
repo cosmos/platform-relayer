@@ -6,11 +6,10 @@ import (
 	"fmt"
 	"time"
 
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"github.com/cosmos/eureka-relayer/shared/bridges/eureka"
 	"github.com/cosmos/eureka-relayer/shared/metrics"
+	"go.uber.org/zap"
 )
 
 const (

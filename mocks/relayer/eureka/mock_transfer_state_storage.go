@@ -4,6 +4,7 @@ package eureka
 
 import (
 	context "context"
+
 	db "github.com/cosmos/eureka-relayer/db/gen/db"
 
 	mock "github.com/stretchr/testify/mock"

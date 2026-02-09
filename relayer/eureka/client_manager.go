@@ -13,14 +13,6 @@ import (
 	rpcclienthttp "github.com/cometbft/cometbft/rpc/client/http"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	signerservice "github.com/cosmos/eureka-relayer/proto/gen/signer"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethclient"
-	ethereumrpc "github.com/ethereum/go-ethereum/rpc"
-	"go.uber.org/zap"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/credentials/insecure"
-
 	"github.com/cosmos/eureka-relayer/shared/bridges/eureka"
 	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
@@ -28,6 +20,13 @@ import (
 	"github.com/cosmos/eureka-relayer/shared/signing"
 	"github.com/cosmos/eureka-relayer/shared/signing/signer_service"
 	"github.com/cosmos/eureka-relayer/shared/utils"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereum/go-ethereum/ethclient"
+	ethereumrpc "github.com/ethereum/go-ethereum/rpc"
+	"go.uber.org/zap"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type BridgeClientManager interface {

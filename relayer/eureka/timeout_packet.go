@@ -7,13 +7,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jackc/pgx/v5/pgtype"
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"github.com/cosmos/eureka-relayer/proto/gen/eurekarelayer"
 	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
+	"github.com/jackc/pgx/v5/pgtype"
+	"go.uber.org/zap"
 )
 
 type TransferTimeoutTxWithTxStorage interface {

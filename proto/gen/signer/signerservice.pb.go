@@ -299,7 +299,7 @@ func (x *Wallet) GetFormattedAddress() string {
 type GetWalletRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	PubkeyType    PubKeyType             `protobuf:"varint,2,opt,name=pubkey_type,json=pubkeyType,proto3,enum=skip.signer.signerservice.PubKeyType" json:"pubkey_type,omitempty"`
+	PubkeyType    PubKeyType             `protobuf:"varint,2,opt,name=pubkey_type,json=pubkeyType,proto3,enum=signerservice.PubKeyType" json:"pubkey_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1114,42 +1114,42 @@ var File_signer_signerservice_proto protoreflect.FileDescriptor
 
 const file_signer_signerservice_proto_rawDesc = "" +
 	"\n" +
-	"\x1asigner/signerservice.proto\x12\x19skip.signer.signerservice\"6\n" +
+	"\x1asigner/signerservice.proto\x12\rsignerservice\"6\n" +
 	"\x05Chain\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x19\n" +
 	"\bchain_id\x18\x02 \x01(\tR\achainId\"\x12\n" +
-	"\x10GetChainsRequest\"M\n" +
-	"\x11GetChainsResponse\x128\n" +
-	"\x06chains\x18\x01 \x03(\v2 .skip.signer.signerservice.ChainR\x06chains\"\xaa\x01\n" +
+	"\x10GetChainsRequest\"A\n" +
+	"\x11GetChainsResponse\x12,\n" +
+	"\x06chains\x18\x01 \x03(\v2\x14.signerservice.ChainR\x06chains\"\xaa\x01\n" +
 	"\x06Wallet\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
 	"\x04tags\x18\x03 \x03(\tR\x04tags\x12\x16\n" +
 	"\x06pubkey\x18\x04 \x01(\fR\x06pubkey\x12#\n" +
 	"\raddress_bytes\x18\x05 \x01(\fR\faddressBytes\x12+\n" +
-	"\x11formatted_address\x18\x06 \x01(\tR\x10formattedAddress\"j\n" +
+	"\x11formatted_address\x18\x06 \x01(\tR\x10formattedAddress\"^\n" +
 	"\x10GetWalletRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12F\n" +
-	"\vpubkey_type\x18\x02 \x01(\x0e2%.skip.signer.signerservice.PubKeyTypeR\n" +
-	"pubkeyType\"N\n" +
-	"\x11GetWalletResponse\x129\n" +
-	"\x06wallet\x18\x01 \x01(\v2!.skip.signer.signerservice.WalletR\x06wallet\"\x13\n" +
-	"\x11GetWalletsRequest\"Q\n" +
-	"\x12GetWalletsResponse\x12;\n" +
-	"\awallets\x18\x01 \x03(\v2!.skip.signer.signerservice.WalletR\awallets\"\x93\x03\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12:\n" +
+	"\vpubkey_type\x18\x02 \x01(\x0e2\x19.signerservice.PubKeyTypeR\n" +
+	"pubkeyType\"B\n" +
+	"\x11GetWalletResponse\x12-\n" +
+	"\x06wallet\x18\x01 \x01(\v2\x15.signerservice.WalletR\x06wallet\"\x13\n" +
+	"\x11GetWalletsRequest\"E\n" +
+	"\x12GetWalletsResponse\x12/\n" +
+	"\awallets\x18\x01 \x03(\v2\x15.signerservice.WalletR\awallets\"\xe3\x02\n" +
 	"\vSignRequest\x12\x1b\n" +
-	"\twallet_id\x18\x01 \x01(\tR\bwalletId\x12T\n" +
-	"\x0fevm_transaction\x18\x02 \x01(\v2).skip.signer.signerservice.EvmTransactionH\x00R\x0eevmTransaction\x12]\n" +
-	"\x12cosmos_transaction\x18\x03 \x01(\v2,.skip.signer.signerservice.CosmosTransactionH\x00R\x11cosmosTransaction\x12H\n" +
-	"\vraw_message\x18\x04 \x01(\v2%.skip.signer.signerservice.RawMessageH\x00R\n" +
-	"rawMessage\x12]\n" +
-	"\x12solana_transaction\x18\x05 \x01(\v2,.skip.signer.signerservice.SolanaTransactionH\x00R\x11solanaTransactionB\t\n" +
-	"\apayload\"\x95\x03\n" +
-	"\fSignResponse\x12Y\n" +
-	"\revm_signature\x18\x01 \x01(\v22.skip.signer.signerservice.EvmTransactionSignatureH\x00R\fevmSignature\x12b\n" +
-	"\x10cosmos_signature\x18\x02 \x01(\v25.skip.signer.signerservice.CosmosTransactionSignatureH\x00R\x0fcosmosSignature\x12U\n" +
-	"\rraw_signature\x18\x03 \x01(\v2..skip.signer.signerservice.RawMessageSignatureH\x00R\frawSignature\x12b\n" +
-	"\x10solana_signature\x18\x04 \x01(\v25.skip.signer.signerservice.SolanaTransactionSignatureH\x00R\x0fsolanaSignatureB\v\n" +
+	"\twallet_id\x18\x01 \x01(\tR\bwalletId\x12H\n" +
+	"\x0fevm_transaction\x18\x02 \x01(\v2\x1d.signerservice.EvmTransactionH\x00R\x0eevmTransaction\x12Q\n" +
+	"\x12cosmos_transaction\x18\x03 \x01(\v2 .signerservice.CosmosTransactionH\x00R\x11cosmosTransaction\x12<\n" +
+	"\vraw_message\x18\x04 \x01(\v2\x19.signerservice.RawMessageH\x00R\n" +
+	"rawMessage\x12Q\n" +
+	"\x12solana_transaction\x18\x05 \x01(\v2 .signerservice.SolanaTransactionH\x00R\x11solanaTransactionB\t\n" +
+	"\apayload\"\xe5\x02\n" +
+	"\fSignResponse\x12M\n" +
+	"\revm_signature\x18\x01 \x01(\v2&.signerservice.EvmTransactionSignatureH\x00R\fevmSignature\x12V\n" +
+	"\x10cosmos_signature\x18\x02 \x01(\v2).signerservice.CosmosTransactionSignatureH\x00R\x0fcosmosSignature\x12I\n" +
+	"\rraw_signature\x18\x03 \x01(\v2\".signerservice.RawMessageSignatureH\x00R\frawSignature\x12V\n" +
+	"\x10solana_signature\x18\x04 \x01(\v2).signerservice.SolanaTransactionSignatureH\x00R\x0fsolanaSignatureB\v\n" +
 	"\tsignature\"F\n" +
 	"\x0eEvmTransaction\x12\x19\n" +
 	"\bchain_id\x18\x01 \x01(\tR\achainId\x12\x19\n" +
@@ -1178,13 +1178,13 @@ const file_signer_signerservice_proto_rawDesc = "" +
 	"\x06Cosmos\x10\x01\x12\f\n" +
 	"\bEthereum\x10\x02\x12\n" +
 	"\n" +
-	"\x06Solana\x10\x032\xab\x03\n" +
-	"\rSignerService\x12h\n" +
-	"\tGetChains\x12+.skip.signer.signerservice.GetChainsRequest\x1a,.skip.signer.signerservice.GetChainsResponse\"\x00\x12h\n" +
-	"\tGetWallet\x12+.skip.signer.signerservice.GetWalletRequest\x1a,.skip.signer.signerservice.GetWalletResponse\"\x00\x12k\n" +
+	"\x06Solana\x10\x032\xcb\x02\n" +
+	"\rSignerService\x12P\n" +
+	"\tGetChains\x12\x1f.signerservice.GetChainsRequest\x1a .signerservice.GetChainsResponse\"\x00\x12P\n" +
+	"\tGetWallet\x12\x1f.signerservice.GetWalletRequest\x1a .signerservice.GetWalletResponse\"\x00\x12S\n" +
 	"\n" +
-	"GetWallets\x12,.skip.signer.signerservice.GetWalletsRequest\x1a-.skip.signer.signerservice.GetWalletsResponse\"\x00\x12Y\n" +
-	"\x04Sign\x12&.skip.signer.signerservice.SignRequest\x1a'.skip.signer.signerservice.SignResponse\"\x00B3Z1github.com/cosmos/eureka-relayer/proto/gen/signerb\x06proto3"
+	"GetWallets\x12 .signerservice.GetWalletsRequest\x1a!.signerservice.GetWalletsResponse\"\x00\x12A\n" +
+	"\x04Sign\x12\x1a.signerservice.SignRequest\x1a\x1b.signerservice.SignResponse\"\x00B3Z1github.com/cosmos/eureka-relayer/proto/gen/signerb\x06proto3"
 
 var (
 	file_signer_signerservice_proto_rawDescOnce sync.Once
@@ -1201,47 +1201,47 @@ func file_signer_signerservice_proto_rawDescGZIP() []byte {
 var file_signer_signerservice_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_signer_signerservice_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_signer_signerservice_proto_goTypes = []any{
-	(PubKeyType)(0),                    // 0: skip.signer.signerservice.PubKeyType
-	(*Chain)(nil),                      // 1: skip.signer.signerservice.Chain
-	(*GetChainsRequest)(nil),           // 2: skip.signer.signerservice.GetChainsRequest
-	(*GetChainsResponse)(nil),          // 3: skip.signer.signerservice.GetChainsResponse
-	(*Wallet)(nil),                     // 4: skip.signer.signerservice.Wallet
-	(*GetWalletRequest)(nil),           // 5: skip.signer.signerservice.GetWalletRequest
-	(*GetWalletResponse)(nil),          // 6: skip.signer.signerservice.GetWalletResponse
-	(*GetWalletsRequest)(nil),          // 7: skip.signer.signerservice.GetWalletsRequest
-	(*GetWalletsResponse)(nil),         // 8: skip.signer.signerservice.GetWalletsResponse
-	(*SignRequest)(nil),                // 9: skip.signer.signerservice.SignRequest
-	(*SignResponse)(nil),               // 10: skip.signer.signerservice.SignResponse
-	(*EvmTransaction)(nil),             // 11: skip.signer.signerservice.EvmTransaction
-	(*EvmTransactionSignature)(nil),    // 12: skip.signer.signerservice.EvmTransactionSignature
-	(*CosmosTransaction)(nil),          // 13: skip.signer.signerservice.CosmosTransaction
-	(*CosmosTransactionSignature)(nil), // 14: skip.signer.signerservice.CosmosTransactionSignature
-	(*RawMessage)(nil),                 // 15: skip.signer.signerservice.RawMessage
-	(*RawMessageSignature)(nil),        // 16: skip.signer.signerservice.RawMessageSignature
-	(*SolanaTransaction)(nil),          // 17: skip.signer.signerservice.SolanaTransaction
-	(*SolanaTransactionSignature)(nil), // 18: skip.signer.signerservice.SolanaTransactionSignature
+	(PubKeyType)(0),                    // 0: signerservice.PubKeyType
+	(*Chain)(nil),                      // 1: signerservice.Chain
+	(*GetChainsRequest)(nil),           // 2: signerservice.GetChainsRequest
+	(*GetChainsResponse)(nil),          // 3: signerservice.GetChainsResponse
+	(*Wallet)(nil),                     // 4: signerservice.Wallet
+	(*GetWalletRequest)(nil),           // 5: signerservice.GetWalletRequest
+	(*GetWalletResponse)(nil),          // 6: signerservice.GetWalletResponse
+	(*GetWalletsRequest)(nil),          // 7: signerservice.GetWalletsRequest
+	(*GetWalletsResponse)(nil),         // 8: signerservice.GetWalletsResponse
+	(*SignRequest)(nil),                // 9: signerservice.SignRequest
+	(*SignResponse)(nil),               // 10: signerservice.SignResponse
+	(*EvmTransaction)(nil),             // 11: signerservice.EvmTransaction
+	(*EvmTransactionSignature)(nil),    // 12: signerservice.EvmTransactionSignature
+	(*CosmosTransaction)(nil),          // 13: signerservice.CosmosTransaction
+	(*CosmosTransactionSignature)(nil), // 14: signerservice.CosmosTransactionSignature
+	(*RawMessage)(nil),                 // 15: signerservice.RawMessage
+	(*RawMessageSignature)(nil),        // 16: signerservice.RawMessageSignature
+	(*SolanaTransaction)(nil),          // 17: signerservice.SolanaTransaction
+	(*SolanaTransactionSignature)(nil), // 18: signerservice.SolanaTransactionSignature
 }
 var file_signer_signerservice_proto_depIdxs = []int32{
-	1,  // 0: skip.signer.signerservice.GetChainsResponse.chains:type_name -> skip.signer.signerservice.Chain
-	0,  // 1: skip.signer.signerservice.GetWalletRequest.pubkey_type:type_name -> skip.signer.signerservice.PubKeyType
-	4,  // 2: skip.signer.signerservice.GetWalletResponse.wallet:type_name -> skip.signer.signerservice.Wallet
-	4,  // 3: skip.signer.signerservice.GetWalletsResponse.wallets:type_name -> skip.signer.signerservice.Wallet
-	11, // 4: skip.signer.signerservice.SignRequest.evm_transaction:type_name -> skip.signer.signerservice.EvmTransaction
-	13, // 5: skip.signer.signerservice.SignRequest.cosmos_transaction:type_name -> skip.signer.signerservice.CosmosTransaction
-	15, // 6: skip.signer.signerservice.SignRequest.raw_message:type_name -> skip.signer.signerservice.RawMessage
-	17, // 7: skip.signer.signerservice.SignRequest.solana_transaction:type_name -> skip.signer.signerservice.SolanaTransaction
-	12, // 8: skip.signer.signerservice.SignResponse.evm_signature:type_name -> skip.signer.signerservice.EvmTransactionSignature
-	14, // 9: skip.signer.signerservice.SignResponse.cosmos_signature:type_name -> skip.signer.signerservice.CosmosTransactionSignature
-	16, // 10: skip.signer.signerservice.SignResponse.raw_signature:type_name -> skip.signer.signerservice.RawMessageSignature
-	18, // 11: skip.signer.signerservice.SignResponse.solana_signature:type_name -> skip.signer.signerservice.SolanaTransactionSignature
-	2,  // 12: skip.signer.signerservice.SignerService.GetChains:input_type -> skip.signer.signerservice.GetChainsRequest
-	5,  // 13: skip.signer.signerservice.SignerService.GetWallet:input_type -> skip.signer.signerservice.GetWalletRequest
-	7,  // 14: skip.signer.signerservice.SignerService.GetWallets:input_type -> skip.signer.signerservice.GetWalletsRequest
-	9,  // 15: skip.signer.signerservice.SignerService.Sign:input_type -> skip.signer.signerservice.SignRequest
-	3,  // 16: skip.signer.signerservice.SignerService.GetChains:output_type -> skip.signer.signerservice.GetChainsResponse
-	6,  // 17: skip.signer.signerservice.SignerService.GetWallet:output_type -> skip.signer.signerservice.GetWalletResponse
-	8,  // 18: skip.signer.signerservice.SignerService.GetWallets:output_type -> skip.signer.signerservice.GetWalletsResponse
-	10, // 19: skip.signer.signerservice.SignerService.Sign:output_type -> skip.signer.signerservice.SignResponse
+	1,  // 0: signerservice.GetChainsResponse.chains:type_name -> signerservice.Chain
+	0,  // 1: signerservice.GetWalletRequest.pubkey_type:type_name -> signerservice.PubKeyType
+	4,  // 2: signerservice.GetWalletResponse.wallet:type_name -> signerservice.Wallet
+	4,  // 3: signerservice.GetWalletsResponse.wallets:type_name -> signerservice.Wallet
+	11, // 4: signerservice.SignRequest.evm_transaction:type_name -> signerservice.EvmTransaction
+	13, // 5: signerservice.SignRequest.cosmos_transaction:type_name -> signerservice.CosmosTransaction
+	15, // 6: signerservice.SignRequest.raw_message:type_name -> signerservice.RawMessage
+	17, // 7: signerservice.SignRequest.solana_transaction:type_name -> signerservice.SolanaTransaction
+	12, // 8: signerservice.SignResponse.evm_signature:type_name -> signerservice.EvmTransactionSignature
+	14, // 9: signerservice.SignResponse.cosmos_signature:type_name -> signerservice.CosmosTransactionSignature
+	16, // 10: signerservice.SignResponse.raw_signature:type_name -> signerservice.RawMessageSignature
+	18, // 11: signerservice.SignResponse.solana_signature:type_name -> signerservice.SolanaTransactionSignature
+	2,  // 12: signerservice.SignerService.GetChains:input_type -> signerservice.GetChainsRequest
+	5,  // 13: signerservice.SignerService.GetWallet:input_type -> signerservice.GetWalletRequest
+	7,  // 14: signerservice.SignerService.GetWallets:input_type -> signerservice.GetWalletsRequest
+	9,  // 15: signerservice.SignerService.Sign:input_type -> signerservice.SignRequest
+	3,  // 16: signerservice.SignerService.GetChains:output_type -> signerservice.GetChainsResponse
+	6,  // 17: signerservice.SignerService.GetWallet:output_type -> signerservice.GetWalletResponse
+	8,  // 18: signerservice.SignerService.GetWallets:output_type -> signerservice.GetWalletsResponse
+	10, // 19: signerservice.SignerService.Sign:output_type -> signerservice.SignResponse
 	16, // [16:20] is the sub-list for method output_type
 	12, // [12:16] is the sub-list for method input_type
 	12, // [12:12] is the sub-list for extension type_name

@@ -64,6 +64,48 @@ The relayer will start:
 make test
 ```
 
+## Database Migrations
+
+Database migrations must be run before starting the relayer. The relayer expects the database schema to already exist.
+
+### Running Migrations
+
+**Local Development:**
+
+```bash
+docker-compose up -d
+```
+
+This starts PostgreSQL and runs migrations automatically.
+
+**Using the migrate CLI:**
+
+```bash
+# Install: https://github.com/golang-migrate/migrate
+migrate -path ./db/migrations -database "postgres://relayer:relayer@localhost:5432/relayer?sslmode=disable" up
+```
+
+**Using the relayer migrations container:**
+
+```bash
+docker run --rm --network host <registry>/relayer-migrate:<version> \
+  -database "postgres://relayer:relayer@localhost:5432/relayer?sslmode=disable" \
+  up
+```
+
+**Using the generic migrate Docker image with local files:**
+
+```bash
+docker run --rm -v $(pwd)/db/migrations:/migrations --network host migrate/migrate \
+  -path /migrations \
+  -database "postgres://relayer:relayer@localhost:5432/relayer?sslmode=disable" \
+  up
+```
+
+### Migration Files
+
+Migration files are located in [`./db/migrations/`](./db/migrations/).
+
 ## Design
 ![Design](./relayer-design.png)
 
@@ -480,9 +522,5 @@ To implement your own signer service, refer to the proto file for message format
 
 
 **Authentication:** The relayer sends the `SERVICE_ACCOUNT_TOKEN` environment variable as a bearer token in the `authorization` gRPC metadata header. Validation is optional.
-
-
-
-
 
 

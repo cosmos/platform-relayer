@@ -8,10 +8,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"google.golang.org/grpc"
 	"gopkg.in/yaml.v3"
-
-	"github.com/cosmos/eureka-relayer/db/gen/db"
 )
 
 // Config Enum Types

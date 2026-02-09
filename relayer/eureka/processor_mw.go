@@ -5,11 +5,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/deliveryhero/pipeline/v2"
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
+	"github.com/deliveryhero/pipeline/v2"
+	"go.uber.org/zap"
 )
 
 type TransferStateStorage interface {

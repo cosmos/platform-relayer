@@ -4,9 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/jackc/pgx/v5/pgxpool"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Txer interface {

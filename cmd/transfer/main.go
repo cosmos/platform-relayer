@@ -6,10 +6,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
+	"go.uber.org/zap"
 )
 
 func main() {

@@ -4,9 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"go.uber.org/zap"
-
 	"github.com/cosmos/eureka-relayer/db/gen/db"
+	"go.uber.org/zap"
 )
 
 // NOTE: this processor is not a EurekaProcessor (it does not have

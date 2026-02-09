@@ -11,13 +11,6 @@ import (
 	"syscall"
 	"time"
 
-	"go.uber.org/zap"
-	"golang.org/x/sync/errgroup"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/credentials/insecure"
-
-	eurekadb "github.com/cosmos/eureka-relayer/db"
 	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"github.com/cosmos/eureka-relayer/db/tx"
 	"github.com/cosmos/eureka-relayer/gasmonitor"
@@ -29,6 +22,11 @@ import (
 	"github.com/cosmos/eureka-relayer/shared/database"
 	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"github.com/cosmos/eureka-relayer/shared/metrics"
+	"go.uber.org/zap"
+	"golang.org/x/sync/errgroup"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 var (
@@ -54,15 +52,6 @@ func main() {
 	ctx = config.ConfigReaderContext(ctx, config.NewConfigReader(cfg))
 
 	dsn := config.GetConfigReader(ctx).GetPostgresConnString()
-	migrations := []eurekadb.Migration{
-		{FS: eurekadb.Migrations.FS},
-	}
-	lmt.Logger(ctx).Info("Running database migrations")
-	if err := eurekadb.Migrate(ctx, dsn, migrations); err != nil {
-		lmt.Logger(ctx).Fatal("Failed to run database migrations", zap.Error(err))
-	}
-	lmt.Logger(ctx).Info("Database migrations completed successfully")
-
 	pool, err := database.NewDatabase(ctx, dsn, config.GetConfigReader(ctx).PostgresIAMAuthEnabled())
 	if err != nil {
 		lmt.Logger(ctx).Fatal("Unable to connect to database: %v", zap.Error(err))

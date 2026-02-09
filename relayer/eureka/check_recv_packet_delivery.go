@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"github.com/jackc/pgx/v5/pgtype"
 	"go.uber.org/zap"
-
-	"github.com/cosmos/eureka-relayer/db/gen/db"
 )
 
 type TransferRecvTxStorage interface {
