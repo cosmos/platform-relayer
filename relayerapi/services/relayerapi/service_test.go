@@ -6,14 +6,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cosmos/eureka-relayer/db/gen/db"
-	eurekamocks "github.com/cosmos/eureka-relayer/mocks/relayer/eureka"
-	relayerapimocks "github.com/cosmos/eureka-relayer/mocks/relayerapi/services/relayerapi"
-	bridgemocks "github.com/cosmos/eureka-relayer/mocks/shared/bridges/eureka"
-	protorelayerapi "github.com/cosmos/eureka-relayer/proto/gen/relayerapi"
-	"github.com/cosmos/eureka-relayer/relayerapi/services/relayerapi"
-	"github.com/cosmos/eureka-relayer/shared/bridges/eureka"
-	"github.com/cosmos/eureka-relayer/shared/config"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/stretchr/testify/mock"
@@ -21,6 +13,15 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
+
+	"github.com/cosmos/platform-relayer/db/gen/db"
+	ibcv2mocks "github.com/cosmos/platform-relayer/mocks/relayer/ibcv2"
+	relayerapimocks "github.com/cosmos/platform-relayer/mocks/relayerapi/services/relayerapi"
+	bridgemocks "github.com/cosmos/platform-relayer/mocks/shared/bridges/ibcv2"
+	protorelayerapi "github.com/cosmos/platform-relayer/proto/gen/relayerapi"
+	"github.com/cosmos/platform-relayer/relayerapi/services/relayerapi"
+	"github.com/cosmos/platform-relayer/shared/bridges/ibcv2"
+	"github.com/cosmos/platform-relayer/shared/config"
 )
 
 type RelayerAPIServiceSuite struct {
@@ -37,7 +38,7 @@ func (s *RelayerAPIServiceSuite) SetupTest() {
 			Cosmos: &config.CosmosConfig{
 				AddressPrefix: "noble",
 			},
-			Eureka: &config.EurekaConfig{
+			IBCV2: &config.IBCV2Config{
 				CounterpartyChains: map[string]string{
 					"08-wasm-1": "evmChainID",
 				},
@@ -47,7 +48,7 @@ func (s *RelayerAPIServiceSuite) SetupTest() {
 			Type:    config.ChainType_EVM,
 			ChainID: "evmChainID",
 			EVM:     &config.EVMConfig{},
-			Eureka: &config.EurekaConfig{
+			IBCV2: &config.IBCV2Config{
 				CounterpartyChains: map[string]string{
 					"08-wasm-1": "cosmosChainID",
 				},
@@ -56,6 +57,9 @@ func (s *RelayerAPIServiceSuite) SetupTest() {
 	}
 	cfg := config.Config{
 		Chains: chainConfigMap,
+		RelayerAPI: config.RelayerAPIConfig{
+			Address: "0.0.0.0:9000",
+		},
 	}
 	configReader := config.NewConfigReader(cfg)
 	s.Ctx = config.ConfigReaderContext(context.Background(), configReader)
@@ -66,7 +70,7 @@ func (s *RelayerAPIServiceSuite) TestRelay_RejectsBlacklistedOFACAddress() {
 	txHash := "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
 
 	mockDB := relayerapimocks.NewMockRelayerAPIQueries(s.T())
-	mockBridgeClientManager := eurekamocks.NewMockBridgeClientManager(s.T())
+	mockBridgeClientManager := ibcv2mocks.NewMockBridgeClientManager(s.T())
 	mockBridgeClient := bridgemocks.NewMockBridgeClient(s.T())
 
 	mockDB.EXPECT().InsertRelaySubmission(s.Ctx, mock.Anything).Return(nil)
@@ -94,7 +98,7 @@ func (s *RelayerAPIServiceSuite) TestRelay_SucceedsOnValidTxHash() {
 	}
 
 	mockDB := relayerapimocks.NewMockRelayerAPIQueries(s.T())
-	mockClientManager := eurekamocks.NewMockBridgeClientManager(s.T())
+	mockClientManager := ibcv2mocks.NewMockBridgeClientManager(s.T())
 	mockBridgeClient := bridgemocks.NewMockBridgeClient(s.T())
 
 	mockDB.EXPECT().InsertRelaySubmission(s.Ctx, mock.Anything).Return(nil)
@@ -104,7 +108,7 @@ func (s *RelayerAPIServiceSuite) TestRelay_SucceedsOnValidTxHash() {
 
 	packetTime := time.Now()
 	timeoutTime := packetTime.Add(time.Hour)
-	mockBridgeClient.EXPECT().SendPacketsFromTx(s.Ctx, "evmChainID", "0xabc123").Return([]*eureka.PacketInfo{
+	mockBridgeClient.EXPECT().SendPacketsFromTx(s.Ctx, "evmChainID", "0xabc123").Return([]*ibcv2.PacketInfo{
 		{
 			Sequence:          1,
 			SourceClient:      "08-wasm-1",
@@ -114,7 +118,7 @@ func (s *RelayerAPIServiceSuite) TestRelay_SucceedsOnValidTxHash() {
 		},
 	}, nil)
 
-	mockDB.EXPECT().InsertEurekaTransfer(s.Ctx, mock.MatchedBy(func(arg db.InsertEurekaTransferParams) bool {
+	mockDB.EXPECT().InsertIBCV2Transfer(s.Ctx, mock.MatchedBy(func(arg db.InsertIBCV2TransferParams) bool {
 		return arg.SourceChainID == "evmChainID" &&
 			arg.DestinationChainID == "cosmosChainID" &&
 			arg.SourceTxHash == "0xabc123" &&
@@ -136,7 +140,7 @@ func (s *RelayerAPIServiceSuite) TestRelay_FailsOnInvalidTxHash() {
 	}
 
 	mockDB := relayerapimocks.NewMockRelayerAPIQueries(s.T())
-	mockClientManager := eurekamocks.NewMockBridgeClientManager(s.T())
+	mockClientManager := ibcv2mocks.NewMockBridgeClientManager(s.T())
 
 	service := relayerapi.NewRelayerAPIService(s.Ctx, mockDB, mockClientManager)
 
@@ -152,7 +156,7 @@ func (s *RelayerAPIServiceSuite) TestRelay_FailsOnMissingChainId() {
 	}
 
 	mockDB := relayerapimocks.NewMockRelayerAPIQueries(s.T())
-	mockClientManager := eurekamocks.NewMockBridgeClientManager(s.T())
+	mockClientManager := ibcv2mocks.NewMockBridgeClientManager(s.T())
 
 	service := relayerapi.NewRelayerAPIService(s.Ctx, mockDB, mockClientManager)
 
@@ -168,7 +172,7 @@ func (s *RelayerAPIServiceSuite) TestRelay_FailsOnDatabaseFailure() {
 	}
 
 	mockDB := relayerapimocks.NewMockRelayerAPIQueries(s.T())
-	mockClientManager := eurekamocks.NewMockBridgeClientManager(s.T())
+	mockClientManager := ibcv2mocks.NewMockBridgeClientManager(s.T())
 	mockBridgeClient := bridgemocks.NewMockBridgeClient(s.T())
 
 	mockDB.EXPECT().InsertRelaySubmission(s.Ctx, mock.Anything).Return(nil)
@@ -178,7 +182,7 @@ func (s *RelayerAPIServiceSuite) TestRelay_FailsOnDatabaseFailure() {
 
 	packetTime := time.Now()
 	timeoutTime := packetTime.Add(time.Hour)
-	mockBridgeClient.EXPECT().SendPacketsFromTx(s.Ctx, "evmChainID", "0xabc123").Return([]*eureka.PacketInfo{
+	mockBridgeClient.EXPECT().SendPacketsFromTx(s.Ctx, "evmChainID", "0xabc123").Return([]*ibcv2.PacketInfo{
 		{
 			Sequence:          1,
 			SourceClient:      "08-wasm-1",
@@ -188,7 +192,7 @@ func (s *RelayerAPIServiceSuite) TestRelay_FailsOnDatabaseFailure() {
 		},
 	}, nil)
 
-	mockDB.EXPECT().InsertEurekaTransfer(s.Ctx, mock.Anything).Return(errors.New("database error"))
+	mockDB.EXPECT().InsertIBCV2Transfer(s.Ctx, mock.Anything).Return(errors.New("database error"))
 
 	service := relayerapi.NewRelayerAPIService(s.Ctx, mockDB, mockClientManager)
 
@@ -221,7 +225,7 @@ func (s *RelayerAPIServiceSuite) TestStatus_ReturnsNotFoundForUnsubmittedTx() {
 	mockDB.On("GetRelaySubmission", mock.Anything, db.GetRelaySubmissionParams{
 		SourceChainID: "11155111",
 		SourceTxHash:  "0xabc123",
-	}).Return(db.EurekaRelaySubmission{}, pgx.ErrNoRows)
+	}).Return(db.Ibcv2RelaySubmission{}, pgx.ErrNoRows)
 
 	service := relayerapi.NewRelayerAPIService(s.Ctx, mockDB, nil)
 
@@ -240,11 +244,11 @@ func (s *RelayerAPIServiceSuite) TestStatus_ReturnsEmptyForNoTransfers() {
 	mockDB.On("GetRelaySubmission", mock.Anything, db.GetRelaySubmissionParams{
 		SourceChainID: "11155111",
 		SourceTxHash:  "0xabc123",
-	}).Return(db.EurekaRelaySubmission{}, nil)
+	}).Return(db.Ibcv2RelaySubmission{}, nil)
 	mockDB.On("GetTransfersBySourceTx", mock.Anything, db.GetTransfersBySourceTxParams{
 		SourceChainID: "11155111",
 		SourceTxHash:  "0xabc123",
-	}).Return([]db.EurekaTransfer{}, nil)
+	}).Return([]db.Ibcv2Transfer{}, nil)
 
 	service := relayerapi.NewRelayerAPIService(s.Ctx, mockDB, nil)
 
@@ -263,18 +267,18 @@ func (s *RelayerAPIServiceSuite) TestStatus_ReturnsPacketStatuses() {
 	mockDB.On("GetRelaySubmission", mock.Anything, db.GetRelaySubmissionParams{
 		SourceChainID: "11155111",
 		SourceTxHash:  "0xabc123",
-	}).Return(db.EurekaRelaySubmission{}, nil)
+	}).Return(db.Ibcv2RelaySubmission{}, nil)
 	mockDB.On("GetTransfersBySourceTx", mock.Anything, db.GetTransfersBySourceTxParams{
 		SourceChainID: "11155111",
 		SourceTxHash:  "0xabc123",
-	}).Return([]db.EurekaTransfer{
+	}).Return([]db.Ibcv2Transfer{
 		{
 			SourceChainID:        "11155111",
 			DestinationChainID:   "cosmoshub-4",
 			SourceTxHash:         "0xabc123",
 			PacketSequenceNumber: 100,
 			PacketSourceClientID: "08-wasm-1",
-			Status:               db.EurekaRelayStatusPENDING,
+			Status:               db.Ibcv2RelayStatusPENDING,
 		},
 		{
 			SourceChainID:        "11155111",
@@ -282,7 +286,7 @@ func (s *RelayerAPIServiceSuite) TestStatus_ReturnsPacketStatuses() {
 			SourceTxHash:         "0xabc123",
 			PacketSequenceNumber: 101,
 			PacketSourceClientID: "08-wasm-1",
-			Status:               db.EurekaRelayStatusCOMPLETEWITHACK,
+			Status:               db.Ibcv2RelayStatusCOMPLETEWITHACK,
 			RecvTxHash:           pgtype.Text{String: "0xdef456", Valid: true},
 			AckTxHash:            pgtype.Text{String: "0xghi789", Valid: true},
 		},

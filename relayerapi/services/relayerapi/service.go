@@ -6,19 +6,20 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cosmos/eureka-relayer/db/gen/db"
-	protorelayerapi "github.com/cosmos/eureka-relayer/proto/gen/relayerapi"
-	"github.com/cosmos/eureka-relayer/relayer/eureka"
-	"github.com/cosmos/eureka-relayer/shared/config"
-	"github.com/cosmos/eureka-relayer/shared/lmt"
-	"github.com/cosmos/eureka-relayer/shared/metrics"
-	"github.com/cosmos/eureka-relayer/shared/utils"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgtype"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/cosmos/platform-relayer/db/gen/db"
+	protorelayerapi "github.com/cosmos/platform-relayer/proto/gen/relayerapi"
+	"github.com/cosmos/platform-relayer/relayer/ibcv2"
+	"github.com/cosmos/platform-relayer/shared/config"
+	"github.com/cosmos/platform-relayer/shared/lmt"
+	"github.com/cosmos/platform-relayer/shared/metrics"
+	"github.com/cosmos/platform-relayer/shared/utils"
 )
 
 const (
@@ -29,20 +30,20 @@ type RelayerAPIService struct {
 	protorelayerapi.UnsafeRelayerApiServiceServer
 	config              config.ConfigReader
 	db                  RelayerAPIQueries
-	bridgeClientManager eureka.BridgeClientManager
+	bridgeClientManager ibcv2.BridgeClientManager
 }
 
 type RelayerAPIQueries interface {
-	InsertEurekaTransfer(ctx context.Context, arg db.InsertEurekaTransferParams) error
-	GetTransfersBySourceTx(ctx context.Context, arg db.GetTransfersBySourceTxParams) ([]db.EurekaTransfer, error)
+	InsertIBCV2Transfer(ctx context.Context, arg db.InsertIBCV2TransferParams) error
+	GetTransfersBySourceTx(ctx context.Context, arg db.GetTransfersBySourceTxParams) ([]db.Ibcv2Transfer, error)
 	InsertRelaySubmission(ctx context.Context, arg db.InsertRelaySubmissionParams) error
-	GetRelaySubmission(ctx context.Context, arg db.GetRelaySubmissionParams) (db.EurekaRelaySubmission, error)
+	GetRelaySubmission(ctx context.Context, arg db.GetRelaySubmissionParams) (db.Ibcv2RelaySubmission, error)
 }
 
 func NewRelayerAPIService(
 	ctx context.Context,
 	db RelayerAPIQueries,
-	bridgeClientManager eureka.BridgeClientManager,
+	bridgeClientManager ibcv2.BridgeClientManager,
 ) *RelayerAPIService {
 	return &RelayerAPIService{
 		db:                  db,
@@ -116,16 +117,16 @@ func (s *RelayerAPIService) Relay(
 	}); err != nil {
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) && pgErr.Code == ErrCode_DuplicateKey {
-			metrics.FromContext(ctx).AddRelayRequest(metrics.EurekaBridgeType, uint32(codes.OK))
+			metrics.FromContext(ctx).AddRelayRequest(metrics.IBCV2BridgeType, uint32(codes.OK))
 			return &protorelayerapi.RelayResponse{}, nil
 		}
-		metrics.FromContext(ctx).AddRelayRequest(metrics.EurekaBridgeType, uint32(codes.Internal))
+		metrics.FromContext(ctx).AddRelayRequest(metrics.IBCV2BridgeType, uint32(codes.Internal))
 		return nil, status.Errorf(codes.Internal, "failed to insert relay submission")
 	}
 
 	client, err := s.bridgeClientManager.GetClient(ctx, sourceChainID)
 	if err != nil {
-		metrics.FromContext(ctx).AddRelayRequest(metrics.EurekaBridgeType, uint32(codes.InvalidArgument))
+		metrics.FromContext(ctx).AddRelayRequest(metrics.IBCV2BridgeType, uint32(codes.InvalidArgument))
 		return nil, status.Errorf(codes.InvalidArgument, "unsupported chain: %s", sourceChainID)
 	}
 
@@ -160,7 +161,7 @@ func (s *RelayerAPIService) Relay(
 			continue
 		}
 
-		insert := db.InsertEurekaTransferParams{
+		insert := db.InsertIBCV2TransferParams{
 			SourceChainID:             sourceChainID,
 			DestinationChainID:        destChainID,
 			SourceTxHash:              request.GetTxHash(),
@@ -171,7 +172,7 @@ func (s *RelayerAPIService) Relay(
 			PacketTimeoutTimestamp:    pgtype.Timestamp{Valid: true, Time: packet.TimeoutTimestamp},
 		}
 
-		if err := s.db.InsertEurekaTransfer(ctx, insert); err != nil {
+		if err := s.db.InsertIBCV2Transfer(ctx, insert); err != nil {
 			var pgErr *pgconn.PgError
 			if errors.As(err, &pgErr) && pgErr.Code == ErrCode_DuplicateKey {
 				lmt.Logger(ctx).Debug("packet already exists",
@@ -179,7 +180,7 @@ func (s *RelayerAPIService) Relay(
 				)
 				continue
 			}
-			metrics.FromContext(ctx).AddRelayRequest(metrics.EurekaBridgeType, uint32(codes.Internal))
+			metrics.FromContext(ctx).AddRelayRequest(metrics.IBCV2BridgeType, uint32(codes.Internal))
 			return nil, status.Errorf(codes.Internal, "failed to insert packet")
 		}
 
@@ -189,18 +190,18 @@ func (s *RelayerAPIService) Relay(
 		)
 	}
 
-	metrics.FromContext(ctx).AddRelayRequest(metrics.EurekaBridgeType, uint32(codes.OK))
+	metrics.FromContext(ctx).AddRelayRequest(metrics.IBCV2BridgeType, uint32(codes.OK))
 	return &protorelayerapi.RelayResponse{}, nil
 }
 
-func mapDBStatusToProto(s db.EurekaRelayStatus) protorelayerapi.TransferState {
+func mapDBStatusToProto(s db.Ibcv2RelayStatus) protorelayerapi.TransferState {
 	switch s {
-	case db.EurekaRelayStatusCOMPLETEWITHACK,
-		db.EurekaRelayStatusCOMPLETEWITHTIMEOUT,
-		db.EurekaRelayStatusCOMPLETEWITHWRITEACKSUCCESS,
-		db.EurekaRelayStatusCOMPLETEWITHWRITEACKERROR:
+	case db.Ibcv2RelayStatusCOMPLETEWITHACK,
+		db.Ibcv2RelayStatusCOMPLETEWITHTIMEOUT,
+		db.Ibcv2RelayStatusCOMPLETEWITHWRITEACKSUCCESS,
+		db.Ibcv2RelayStatusCOMPLETEWITHWRITEACKERROR:
 		return protorelayerapi.TransferState_TRANSFER_STATE_COMPLETE
-	case db.EurekaRelayStatusFAILED:
+	case db.Ibcv2RelayStatusFAILED:
 		return protorelayerapi.TransferState_TRANSFER_STATE_FAILED
 	default:
 		return protorelayerapi.TransferState_TRANSFER_STATE_PENDING

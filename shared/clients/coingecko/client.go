@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"time"
 
-	utils "github.com/cosmos/eureka-relayer/shared/clients/utils"
-	"github.com/cosmos/eureka-relayer/shared/config"
+	utils "github.com/cosmos/platform-relayer/shared/clients/utils"
+	"github.com/cosmos/platform-relayer/shared/config"
 )
 
 type CoingeckoClient struct {

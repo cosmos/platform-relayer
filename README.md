@@ -56,7 +56,7 @@ The relayer will start:
 | Flag | Default | Description |
 |------|---------|-------------|
 | `--config` | `./config/local/config.yml` | Path to relayer config file |
-| `--eureka-relaying` | `true` | Enable/disable the relay dispatcher |
+| `--ibcv2-relaying` | `true` | Enable/disable the relay dispatcher |
 
 ### Running Tests
 
@@ -206,13 +206,13 @@ metrics:
 relayer_api:
   address: "0.0.0.0:9000"
 
-eureka_proof_api:
+ibcv2_proof_api:
   grpc_address: "localhost:50051"
   grpc_tls_enabled: false
 
 signing:
   # Local signing — set keys_path to use local key file
-  keys_path: "./config/local/eurekakeys.json"
+  keys_path: "./config/local/ibcv2keys.json"
   # Remote signing — set grpc_address to use remote signer (takes precedence over keys_path)
   # grpc_address: "localhost:50052"
   # cosmos_wallet_key: "cosmos-wallet-id"
@@ -235,16 +235,16 @@ chains:
     gas_token_coingecko_id: "cosmos"
     gas_token_decimals: 6
     supported_bridges:
-      - eureka
+      - ibcv2
     cosmos:
-      eureka_tx_fee_denom: "uatom"
-      eureka_tx_fee_amount: 5000
+      ibcv2_tx_fee_denom: "uatom"
+      ibcv2_tx_fee_amount: 5000
       rpc: "https://cosmos-rpc.example.com"
       rpc_basic_auth_var: "COSMOS_RPC_AUTH"
       grpc: "cosmos-grpc.example.com:9090"
       grpc_tls_enabled: true
       address_prefix: "cosmos"
-    eureka:
+    ibcv2:
       counterparty_chains:
         "08-wasm-0": "1"   # client ID on cosmoshub → ethereum chain ID
       finality_offset: 10
@@ -260,7 +260,7 @@ chains:
       should_relay_success_acks: true
       should_relay_error_acks: true
     signer_gas_alert_thresholds:
-      eureka:
+      ibcv2:
         warning_threshold: "5000000"    # in smallest denom units (uatom)
         critical_threshold: "1000000"
 
@@ -273,7 +273,7 @@ chains:
     gas_token_coingecko_id: "ethereum"
     gas_token_decimals: 18
     supported_bridges:
-      - eureka
+      - ibcv2
     evm:
       rpc: "https://eth-mainnet.g.alchemy.com/v2/your-key"
       rpc_basic_auth_var: "ETH_RPC_AUTH"
@@ -282,7 +282,7 @@ chains:
         ics_20_transfer_address: "0x..."
       gas_fee_cap_multiplier: 1.5
       gas_tip_cap_multiplier: 1.2
-    eureka:
+    ibcv2:
       counterparty_chains:
         "tendermint-0": "cosmoshub-4"   # client ID on ethereum → cosmoshub chain ID
       recv_batch_size: 100
@@ -297,7 +297,7 @@ chains:
       should_relay_success_acks: true
       should_relay_error_acks: true
     signer_gas_alert_thresholds:
-      eureka:
+      ibcv2:
         warning_threshold: "1000000000000000000"   # 1 ETH
         critical_threshold: "500000000000000000"   # 0.5 ETH
 ```
@@ -326,7 +326,7 @@ Database credentials are read from environment variables `POSTGRES_USER` and `PO
 |-------|------|-------------|
 | `address` | string | Address for the gRPC API server to listen on (e.g. `0.0.0.0:9000`) |
 
-#### `eureka_proof_api`
+#### `ibcv2_proof_api`
 
 Connection to the proof api service that generates relay transactions.
 
@@ -374,7 +374,7 @@ Each entry under `chains` defines a chain the relayer can interact with.
 | `gas_token_symbol` | string | Gas token ticker symbol                               |
 | `gas_token_coingecko_id` | string | Coingecko ID for gas cost tracking (optional)         |
 | `gas_token_decimals` | uint8 | Decimal places for the gas token                      |
-| `supported_bridges` | []string | List of bridge types (currently only `eureka`)        |
+| `supported_bridges` | []string | List of bridge types (currently only `ibcv2`)        |
 
 #### `chains.<chain_key>.cosmos`
 
@@ -382,9 +382,9 @@ Required when `type: cosmos`.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `gas_price` | float64 | Gas price for fee estimation. Mutually exclusive with `eureka_tx_fee_amount` |
-| `eureka_tx_fee_denom` | string | Fee denom for eureka txs (required if `eureka_tx_fee_amount` is set) |
-| `eureka_tx_fee_amount` | uint64 | Fixed fee amount for eureka txs. Mutually exclusive with `gas_price` |
+| `gas_price` | float64 | Gas price for fee estimation. Mutually exclusive with `ibcv2_tx_fee_amount` |
+| `ibcv2_tx_fee_denom` | string | Fee denom for ibcv2 txs (required if `ibcv2_tx_fee_amount` is set) |
+| `ibcv2_tx_fee_amount` | uint64 | Fixed fee amount for ibcv2 txs. Mutually exclusive with `gas_price` |
 | `rpc` | string | Tendermint RPC endpoint |
 | `rpc_basic_auth_var` | string | Environment variable name containing basic auth credentials for RPC |
 | `grpc` | string | gRPC endpoint |
@@ -404,7 +404,7 @@ Required when `type: evm`.
 | `gas_fee_cap_multiplier` | float64 | Multiplier applied to the estimated gas fee cap (optional) |
 | `gas_tip_cap_multiplier` | float64 | Multiplier applied to the estimated gas tip cap (optional) |
 
-#### `chains.<chain_key>.eureka`
+#### `chains.<chain_key>.ibcv2`
 
 IBC v2 relay configuration for this chain. Defines which counterparty chains to relay for and batching behavior.
 
@@ -428,8 +428,8 @@ IBC v2 relay configuration for this chain. Defines which counterparty chains to 
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `eureka.warning_threshold` | string | Gas balance (in smallest denom) at which the metric reports warning state |
-| `eureka.critical_threshold` | string | Gas balance (in smallest denom) at which the metric reports critical state |
+| `ibcv2.warning_threshold` | string | Gas balance (in smallest denom) at which the metric reports warning state |
+| `ibcv2.critical_threshold` | string | Gas balance (in smallest denom) at which the metric reports critical state |
 
 ## Signing
 
@@ -445,7 +445,7 @@ Set `signing.keys_path` to point to a JSON file containing private keys. The for
 
 ```yaml
 signing:
-  keys_path: "./config/local/eurekakeys.json"
+  keys_path: "./config/local/ibcv2keys.json"
 ```
 
 ```json

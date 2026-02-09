@@ -8,9 +8,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/cosmos/eureka-relayer/db/gen/db"
 	"google.golang.org/grpc"
 	"gopkg.in/yaml.v3"
+
+	"github.com/cosmos/platform-relayer/db/gen/db"
 )
 
 // Config Enum Types
@@ -25,13 +26,13 @@ const (
 type BridgeType string
 
 const (
-	BridgeType_EUREKA BridgeType = "eureka"
+	BridgeType_IBCV2 BridgeType = "ibcv2"
 )
 
 func (t BridgeType) ToDBBridgeType() (db.BridgeType, error) {
 	switch t {
-	case BridgeType_EUREKA:
-		return db.BridgeTypeEureka, nil
+	case BridgeType_IBCV2:
+		return db.BridgeTypeIbcv2, nil
 	default:
 		return "", fmt.Errorf("invalid bridge type %s", t)
 	}
@@ -55,7 +56,7 @@ type Config struct {
 	Metrics        MetricsConfig          `yaml:"metrics"`
 	RelayerAPI     RelayerAPIConfig       `yaml:"relayer_api"`
 	Coingecko      CoingeckoConfig        `yaml:"coingecko,omitempty"`
-	EurekaProofAPI EurekaProofAPIConfig   `yaml:"eureka_proof_api"`
+	IBCV2ProofAPI IBCV2ProofAPIConfig   `yaml:"ibcv2_proof_api"`
 	Signing        SigningConfig          `yaml:"signing"`
 }
 
@@ -82,12 +83,12 @@ type PostgresConfig struct {
 	IAMAuthEnabled bool   `yaml:"iam_auth_enabled"`
 }
 
-type EurekaProofAPIConfig struct {
+type IBCV2ProofAPIConfig struct {
 	GRPCAddress    string `yaml:"grpc_address"`
 	GRPCTLSEnabled bool   `yaml:"grpc_tls_enabled"`
 }
 
-type EurekaConfig struct {
+type IBCV2Config struct {
 	// CounterpartyChains is a mapping of source client id to counterparty chain id.
 	// This should be populated for any connections the relayer should relay for.
 	CounterpartyChains map[string]string `yaml:"counterparty_chains"`
@@ -159,7 +160,7 @@ type ChainConfig struct {
 	GasTokenCoingeckoID      *string                                       `yaml:"gas_token_coingecko_id"`
 	GasTokenDecimals         uint8                                         `yaml:"gas_token_decimals"`
 	SignerGasAlertThresholds map[BridgeType]SignerGasAlertThresholdsConfig `yaml:"signer_gas_alert_thresholds"`
-	Eureka                   *EurekaConfig                                 `yaml:"eureka"`
+	IBCV2                    *IBCV2Config                                 `yaml:"ibcv2"`
 	SupportedBridges         []BridgeType                                  `yaml:"supported_bridges"`
 }
 
@@ -175,14 +176,14 @@ type SignerGasAlertThresholdsConfig struct {
 type CosmosConfig struct {
 	GasPrice float64 `yaml:"gas_price"`
 
-	// EurekaTxFeeDenom is the denom to use as the fee for eureka txs. This
-	// must be set if EurekaTxFeeAmount is set.
-	EurekaTxFeeDenom string `yaml:"eureka_tx_fee_denom"`
+	// IBCV2TxFeeDenom is the denom to use as the fee for ibcv2 txs. This
+	// must be set if IBCV2TxFeeAmount is set.
+	IBCV2TxFeeDenom string `yaml:"ibcv2_tx_fee_denom"`
 
-	// EurekaTxFeeAmount is a hardcoded amount to use as the fee when
-	// delivering eureka txs to this chain. Only one of GasPrice or
-	// EurekaTxFeeAmount can be set.
-	EurekaTxFeeAmount uint64 `yaml:"eureka_tx_fee_amount"`
+	// IBCV2TxFeeAmount is a hardcoded amount to use as the fee when
+	// delivering ibcv2 txs to this chain. Only one of GasPrice or
+	// IBCV2TxFeeAmount can be set.
+	IBCV2TxFeeAmount uint64 `yaml:"ibcv2_tx_fee_amount"`
 
 	RPC             string `yaml:"rpc"`
 	RPCBasicAuthVar string `yaml:"rpc_basic_auth_var"`
@@ -202,7 +203,6 @@ type EVMConfig struct {
 type EVMContractConfig struct {
 	ICS26RouterAddress   string `yaml:"ics_26_router_address"`
 	ICS20TransferAddress string `yaml:"ics_20_transfer_address"`
-	EurekaHandlerAddress string `yaml:"eureka_handler_address"`
 }
 
 type SVMConfig struct {
@@ -281,11 +281,11 @@ type ConfigReader interface {
 	GetCoingeckoConfig() CoingeckoConfig
 	GetRelayerAPIConfig() RelayerAPIConfig
 
-	GetEurekaConfig(chainID string) (*EurekaConfig, error)
-	GetEurekaProofRelayerConfig() EurekaProofAPIConfig
-	GetEurekaChains() []ChainConfig
+	GetIBCV2Config(chainID string) (*IBCV2Config, error)
+	GetIBCV2ProofRelayerConfig() IBCV2ProofAPIConfig
+	GetIBCV2Chains() []ChainConfig
 	GetClientCounterpartyChainID(chainID string, clientID string) (string, error)
-	GetAllEurekaClientsToCounterparties() (map[string]map[string]string, error)
+	GetAllIBCV2ClientsToCounterparties() (map[string]map[string]string, error)
 }
 
 type configReader struct {
@@ -313,27 +313,27 @@ func (r configReader) Config() Config {
 	return r.config
 }
 
-func (r configReader) GetEurekaProofRelayerConfig() EurekaProofAPIConfig {
-	return r.config.EurekaProofAPI
+func (r configReader) GetIBCV2ProofRelayerConfig() IBCV2ProofAPIConfig {
+	return r.config.IBCV2ProofAPI
 }
 
-func (r configReader) GetEurekaChains() []ChainConfig {
+func (r configReader) GetIBCV2Chains() []ChainConfig {
 	var chains []ChainConfig
 	for _, chain := range r.config.Chains {
-		if chain.Eureka != nil {
+		if chain.IBCV2 != nil {
 			chains = append(chains, chain)
 		}
 	}
 	return chains
 }
 
-func (r configReader) GetEurekaConfig(chainID string) (*EurekaConfig, error) {
+func (r configReader) GetIBCV2Config(chainID string) (*IBCV2Config, error) {
 	chain, err := r.GetChainConfig(chainID)
 	if err != nil {
 		return nil, err
 	}
 
-	return chain.Eureka, nil
+	return chain.IBCV2, nil
 }
 
 // GetClientCounterpartyChainID returns the chainID of the chain that is being
@@ -343,11 +343,11 @@ func (r configReader) GetClientCounterpartyChainID(chainID string, clientID stri
 	if err != nil {
 		return "", err
 	}
-	if chain.Eureka == nil {
-		return "", fmt.Errorf("chain %s is not eureka enabled", chainID)
+	if chain.IBCV2 == nil {
+		return "", fmt.Errorf("chain %s is not ibcv2 enabled", chainID)
 	}
 
-	trackedChain, ok := chain.Eureka.CounterpartyChains[clientID]
+	trackedChain, ok := chain.IBCV2.CounterpartyChains[clientID]
 	if !ok {
 		return "", fmt.Errorf("unknown client %s on chain %s", clientID, chainID)
 	}
@@ -526,17 +526,17 @@ func (r configReader) GetRelayerAPIConfig() RelayerAPIConfig {
 	return r.config.RelayerAPI
 }
 
-// GetAllEurekaClientsToCounterparties, returns a map of chainIDs -> map of client
+// GetAllIBCV2ClientsToCounterparties, returns a map of chainIDs -> map of client
 // ids -> counterparty chain IDs
-func (r configReader) GetAllEurekaClientsToCounterparties() (map[string]map[string]string, error) {
+func (r configReader) GetAllIBCV2ClientsToCounterparties() (map[string]map[string]string, error) {
 	clientsToCounterparties := make(map[string]map[string]string)
-	chains := r.GetEurekaChains()
+	chains := r.GetIBCV2Chains()
 	for _, chain := range chains {
-		eureka, err := r.GetEurekaConfig(chain.ChainID)
+		ibcv2, err := r.GetIBCV2Config(chain.ChainID)
 		if err != nil {
-			return nil, fmt.Errorf("getting eureka config for chain %s: %w", chain.ChainID, err)
+			return nil, fmt.Errorf("getting ibcv2 config for chain %s: %w", chain.ChainID, err)
 		}
-		clientsToCounterparties[chain.ChainID] = eureka.CounterpartyChains
+		clientsToCounterparties[chain.ChainID] = ibcv2.CounterpartyChains
 	}
 	return clientsToCounterparties, nil
 }

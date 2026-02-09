@@ -1,2 +1,0 @@
-ALTER TABLE eureka_transfers ADD COLUMN source_tx_finalized_time TIMESTAMP;
-ALTER TABLE eureka_transfers ADD COLUMN write_ack_tx_finalized_time TIMESTAMP;

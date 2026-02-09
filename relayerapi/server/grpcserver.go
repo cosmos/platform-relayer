@@ -6,14 +6,6 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/cosmos/eureka-relayer/db/gen/db"
-	genrelayservice "github.com/cosmos/eureka-relayer/proto/gen/relayerapi"
-	"github.com/cosmos/eureka-relayer/relayer/eureka"
-	"github.com/cosmos/eureka-relayer/relayerapi/services/health"
-	"github.com/cosmos/eureka-relayer/relayerapi/services/relayerapi"
-	"github.com/cosmos/eureka-relayer/shared/config"
-	"github.com/cosmos/eureka-relayer/shared/lmt"
-	"github.com/cosmos/eureka-relayer/shared/metrics"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/soheilhy/cmux"
@@ -21,6 +13,15 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
+
+	"github.com/cosmos/platform-relayer/db/gen/db"
+	genrelayservice "github.com/cosmos/platform-relayer/proto/gen/relayerapi"
+	"github.com/cosmos/platform-relayer/relayer/ibcv2"
+	"github.com/cosmos/platform-relayer/relayerapi/services/health"
+	"github.com/cosmos/platform-relayer/relayerapi/services/relayerapi"
+	"github.com/cosmos/platform-relayer/shared/config"
+	"github.com/cosmos/platform-relayer/shared/lmt"
+	"github.com/cosmos/platform-relayer/shared/metrics"
 )
 
 type RelayerGRPCServer struct {
@@ -29,7 +30,7 @@ type RelayerGRPCServer struct {
 	address           string
 }
 
-func NewRelayerGRPCServer(ctx context.Context, pool *pgxpool.Pool, bridgeClientManager eureka.BridgeClientManager, address string) (*RelayerGRPCServer, error) {
+func NewRelayerGRPCServer(ctx context.Context, pool *pgxpool.Pool, bridgeClientManager ibcv2.BridgeClientManager, address string) (*RelayerGRPCServer, error) {
 	metricsInterceptor := metrics.UnaryServerInterceptor(ctx)
 	configInterceptor := config.UnaryServerInterceptor(config.GetConfigReader(ctx))
 

@@ -5,7 +5,7 @@ package relayerapi
 import (
 	context "context"
 
-	db "github.com/cosmos/eureka-relayer/db/gen/db"
+	db "github.com/cosmos/platform-relayer/db/gen/db"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -23,22 +23,22 @@ func (_m *MockRelayerAPIQueries) EXPECT() *MockRelayerAPIQueries_Expecter {
 }
 
 // GetRelaySubmission provides a mock function with given fields: ctx, arg
-func (_m *MockRelayerAPIQueries) GetRelaySubmission(ctx context.Context, arg db.GetRelaySubmissionParams) (db.EurekaRelaySubmission, error) {
+func (_m *MockRelayerAPIQueries) GetRelaySubmission(ctx context.Context, arg db.GetRelaySubmissionParams) (db.Ibcv2RelaySubmission, error) {
 	ret := _m.Called(ctx, arg)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetRelaySubmission")
 	}
 
-	var r0 db.EurekaRelaySubmission
+	var r0 db.Ibcv2RelaySubmission
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, db.GetRelaySubmissionParams) (db.EurekaRelaySubmission, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, db.GetRelaySubmissionParams) (db.Ibcv2RelaySubmission, error)); ok {
 		return rf(ctx, arg)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, db.GetRelaySubmissionParams) db.EurekaRelaySubmission); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, db.GetRelaySubmissionParams) db.Ibcv2RelaySubmission); ok {
 		r0 = rf(ctx, arg)
 	} else {
-		r0 = ret.Get(0).(db.EurekaRelaySubmission)
+		r0 = ret.Get(0).(db.Ibcv2RelaySubmission)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, db.GetRelaySubmissionParams) error); ok {
@@ -69,34 +69,34 @@ func (_c *MockRelayerAPIQueries_GetRelaySubmission_Call) Run(run func(ctx contex
 	return _c
 }
 
-func (_c *MockRelayerAPIQueries_GetRelaySubmission_Call) Return(_a0 db.EurekaRelaySubmission, _a1 error) *MockRelayerAPIQueries_GetRelaySubmission_Call {
+func (_c *MockRelayerAPIQueries_GetRelaySubmission_Call) Return(_a0 db.Ibcv2RelaySubmission, _a1 error) *MockRelayerAPIQueries_GetRelaySubmission_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockRelayerAPIQueries_GetRelaySubmission_Call) RunAndReturn(run func(context.Context, db.GetRelaySubmissionParams) (db.EurekaRelaySubmission, error)) *MockRelayerAPIQueries_GetRelaySubmission_Call {
+func (_c *MockRelayerAPIQueries_GetRelaySubmission_Call) RunAndReturn(run func(context.Context, db.GetRelaySubmissionParams) (db.Ibcv2RelaySubmission, error)) *MockRelayerAPIQueries_GetRelaySubmission_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // GetTransfersBySourceTx provides a mock function with given fields: ctx, arg
-func (_m *MockRelayerAPIQueries) GetTransfersBySourceTx(ctx context.Context, arg db.GetTransfersBySourceTxParams) ([]db.EurekaTransfer, error) {
+func (_m *MockRelayerAPIQueries) GetTransfersBySourceTx(ctx context.Context, arg db.GetTransfersBySourceTxParams) ([]db.Ibcv2Transfer, error) {
 	ret := _m.Called(ctx, arg)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetTransfersBySourceTx")
 	}
 
-	var r0 []db.EurekaTransfer
+	var r0 []db.Ibcv2Transfer
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, db.GetTransfersBySourceTxParams) ([]db.EurekaTransfer, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, db.GetTransfersBySourceTxParams) ([]db.Ibcv2Transfer, error)); ok {
 		return rf(ctx, arg)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, db.GetTransfersBySourceTxParams) []db.EurekaTransfer); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, db.GetTransfersBySourceTxParams) []db.Ibcv2Transfer); ok {
 		r0 = rf(ctx, arg)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]db.EurekaTransfer)
+			r0 = ret.Get(0).([]db.Ibcv2Transfer)
 		}
 	}
 
@@ -128,26 +128,26 @@ func (_c *MockRelayerAPIQueries_GetTransfersBySourceTx_Call) Run(run func(ctx co
 	return _c
 }
 
-func (_c *MockRelayerAPIQueries_GetTransfersBySourceTx_Call) Return(_a0 []db.EurekaTransfer, _a1 error) *MockRelayerAPIQueries_GetTransfersBySourceTx_Call {
+func (_c *MockRelayerAPIQueries_GetTransfersBySourceTx_Call) Return(_a0 []db.Ibcv2Transfer, _a1 error) *MockRelayerAPIQueries_GetTransfersBySourceTx_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockRelayerAPIQueries_GetTransfersBySourceTx_Call) RunAndReturn(run func(context.Context, db.GetTransfersBySourceTxParams) ([]db.EurekaTransfer, error)) *MockRelayerAPIQueries_GetTransfersBySourceTx_Call {
+func (_c *MockRelayerAPIQueries_GetTransfersBySourceTx_Call) RunAndReturn(run func(context.Context, db.GetTransfersBySourceTxParams) ([]db.Ibcv2Transfer, error)) *MockRelayerAPIQueries_GetTransfersBySourceTx_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
-// InsertEurekaTransfer provides a mock function with given fields: ctx, arg
-func (_m *MockRelayerAPIQueries) InsertEurekaTransfer(ctx context.Context, arg db.InsertEurekaTransferParams) error {
+// InsertIBCV2Transfer provides a mock function with given fields: ctx, arg
+func (_m *MockRelayerAPIQueries) InsertIBCV2Transfer(ctx context.Context, arg db.InsertIBCV2TransferParams) error {
 	ret := _m.Called(ctx, arg)
 
 	if len(ret) == 0 {
-		panic("no return value specified for InsertEurekaTransfer")
+		panic("no return value specified for InsertIBCV2Transfer")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, db.InsertEurekaTransferParams) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, db.InsertIBCV2TransferParams) error); ok {
 		r0 = rf(ctx, arg)
 	} else {
 		r0 = ret.Error(0)
@@ -156,31 +156,31 @@ func (_m *MockRelayerAPIQueries) InsertEurekaTransfer(ctx context.Context, arg d
 	return r0
 }
 
-// MockRelayerAPIQueries_InsertEurekaTransfer_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'InsertEurekaTransfer'
-type MockRelayerAPIQueries_InsertEurekaTransfer_Call struct {
+// MockRelayerAPIQueries_InsertIBCV2Transfer_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'InsertIBCV2Transfer'
+type MockRelayerAPIQueries_InsertIBCV2Transfer_Call struct {
 	*mock.Call
 }
 
-// InsertEurekaTransfer is a helper method to define mock.On call
+// InsertIBCV2Transfer is a helper method to define mock.On call
 //   - ctx context.Context
-//   - arg db.InsertEurekaTransferParams
-func (_e *MockRelayerAPIQueries_Expecter) InsertEurekaTransfer(ctx interface{}, arg interface{}) *MockRelayerAPIQueries_InsertEurekaTransfer_Call {
-	return &MockRelayerAPIQueries_InsertEurekaTransfer_Call{Call: _e.mock.On("InsertEurekaTransfer", ctx, arg)}
+//   - arg db.InsertIBCV2TransferParams
+func (_e *MockRelayerAPIQueries_Expecter) InsertIBCV2Transfer(ctx interface{}, arg interface{}) *MockRelayerAPIQueries_InsertIBCV2Transfer_Call {
+	return &MockRelayerAPIQueries_InsertIBCV2Transfer_Call{Call: _e.mock.On("InsertIBCV2Transfer", ctx, arg)}
 }
 
-func (_c *MockRelayerAPIQueries_InsertEurekaTransfer_Call) Run(run func(ctx context.Context, arg db.InsertEurekaTransferParams)) *MockRelayerAPIQueries_InsertEurekaTransfer_Call {
+func (_c *MockRelayerAPIQueries_InsertIBCV2Transfer_Call) Run(run func(ctx context.Context, arg db.InsertIBCV2TransferParams)) *MockRelayerAPIQueries_InsertIBCV2Transfer_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(db.InsertEurekaTransferParams))
+		run(args[0].(context.Context), args[1].(db.InsertIBCV2TransferParams))
 	})
 	return _c
 }
 
-func (_c *MockRelayerAPIQueries_InsertEurekaTransfer_Call) Return(_a0 error) *MockRelayerAPIQueries_InsertEurekaTransfer_Call {
+func (_c *MockRelayerAPIQueries_InsertIBCV2Transfer_Call) Return(_a0 error) *MockRelayerAPIQueries_InsertIBCV2Transfer_Call {
 	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *MockRelayerAPIQueries_InsertEurekaTransfer_Call) RunAndReturn(run func(context.Context, db.InsertEurekaTransferParams) error) *MockRelayerAPIQueries_InsertEurekaTransfer_Call {
+func (_c *MockRelayerAPIQueries_InsertIBCV2Transfer_Call) RunAndReturn(run func(context.Context, db.InsertIBCV2TransferParams) error) *MockRelayerAPIQueries_InsertIBCV2Transfer_Call {
 	_c.Call.Return(run)
 	return _c
 }

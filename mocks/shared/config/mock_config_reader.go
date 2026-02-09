@@ -5,7 +5,7 @@ package config
 import (
 	big "math/big"
 
-	config "github.com/cosmos/eureka-relayer/shared/config"
+	config "github.com/cosmos/platform-relayer/shared/config"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -172,12 +172,12 @@ func (_c *MockConfigReader_GetAllChains_Call) RunAndReturn(run func() []config.C
 	return _c
 }
 
-// GetAllEurekaClientsToCounterparties provides a mock function with no fields
-func (_m *MockConfigReader) GetAllEurekaClientsToCounterparties() (map[string]map[string]string, error) {
+// GetAllIBCV2ClientsToCounterparties provides a mock function with no fields
+func (_m *MockConfigReader) GetAllIBCV2ClientsToCounterparties() (map[string]map[string]string, error) {
 	ret := _m.Called()
 
 	if len(ret) == 0 {
-		panic("no return value specified for GetAllEurekaClientsToCounterparties")
+		panic("no return value specified for GetAllIBCV2ClientsToCounterparties")
 	}
 
 	var r0 map[string]map[string]string
@@ -202,29 +202,29 @@ func (_m *MockConfigReader) GetAllEurekaClientsToCounterparties() (map[string]ma
 	return r0, r1
 }
 
-// MockConfigReader_GetAllEurekaClientsToCounterparties_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAllEurekaClientsToCounterparties'
-type MockConfigReader_GetAllEurekaClientsToCounterparties_Call struct {
+// MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAllIBCV2ClientsToCounterparties'
+type MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call struct {
 	*mock.Call
 }
 
-// GetAllEurekaClientsToCounterparties is a helper method to define mock.On call
-func (_e *MockConfigReader_Expecter) GetAllEurekaClientsToCounterparties() *MockConfigReader_GetAllEurekaClientsToCounterparties_Call {
-	return &MockConfigReader_GetAllEurekaClientsToCounterparties_Call{Call: _e.mock.On("GetAllEurekaClientsToCounterparties")}
+// GetAllIBCV2ClientsToCounterparties is a helper method to define mock.On call
+func (_e *MockConfigReader_Expecter) GetAllIBCV2ClientsToCounterparties() *MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call {
+	return &MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call{Call: _e.mock.On("GetAllIBCV2ClientsToCounterparties")}
 }
 
-func (_c *MockConfigReader_GetAllEurekaClientsToCounterparties_Call) Run(run func()) *MockConfigReader_GetAllEurekaClientsToCounterparties_Call {
+func (_c *MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call) Run(run func()) *MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run()
 	})
 	return _c
 }
 
-func (_c *MockConfigReader_GetAllEurekaClientsToCounterparties_Call) Return(_a0 map[string]map[string]string, _a1 error) *MockConfigReader_GetAllEurekaClientsToCounterparties_Call {
+func (_c *MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call) Return(_a0 map[string]map[string]string, _a1 error) *MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockConfigReader_GetAllEurekaClientsToCounterparties_Call) RunAndReturn(run func() (map[string]map[string]string, error)) *MockConfigReader_GetAllEurekaClientsToCounterparties_Call {
+func (_c *MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call) RunAndReturn(run func() (map[string]map[string]string, error)) *MockConfigReader_GetAllIBCV2ClientsToCounterparties_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -501,156 +501,6 @@ func (_c *MockConfigReader_GetCoingeckoConfig_Call) RunAndReturn(run func() conf
 	return _c
 }
 
-// GetEurekaChains provides a mock function with no fields
-func (_m *MockConfigReader) GetEurekaChains() []config.ChainConfig {
-	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetEurekaChains")
-	}
-
-	var r0 []config.ChainConfig
-	if rf, ok := ret.Get(0).(func() []config.ChainConfig); ok {
-		r0 = rf()
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]config.ChainConfig)
-		}
-	}
-
-	return r0
-}
-
-// MockConfigReader_GetEurekaChains_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetEurekaChains'
-type MockConfigReader_GetEurekaChains_Call struct {
-	*mock.Call
-}
-
-// GetEurekaChains is a helper method to define mock.On call
-func (_e *MockConfigReader_Expecter) GetEurekaChains() *MockConfigReader_GetEurekaChains_Call {
-	return &MockConfigReader_GetEurekaChains_Call{Call: _e.mock.On("GetEurekaChains")}
-}
-
-func (_c *MockConfigReader_GetEurekaChains_Call) Run(run func()) *MockConfigReader_GetEurekaChains_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *MockConfigReader_GetEurekaChains_Call) Return(_a0 []config.ChainConfig) *MockConfigReader_GetEurekaChains_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *MockConfigReader_GetEurekaChains_Call) RunAndReturn(run func() []config.ChainConfig) *MockConfigReader_GetEurekaChains_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// GetEurekaConfig provides a mock function with given fields: chainID
-func (_m *MockConfigReader) GetEurekaConfig(chainID string) (*config.EurekaConfig, error) {
-	ret := _m.Called(chainID)
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetEurekaConfig")
-	}
-
-	var r0 *config.EurekaConfig
-	var r1 error
-	if rf, ok := ret.Get(0).(func(string) (*config.EurekaConfig, error)); ok {
-		return rf(chainID)
-	}
-	if rf, ok := ret.Get(0).(func(string) *config.EurekaConfig); ok {
-		r0 = rf(chainID)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*config.EurekaConfig)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(chainID)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// MockConfigReader_GetEurekaConfig_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetEurekaConfig'
-type MockConfigReader_GetEurekaConfig_Call struct {
-	*mock.Call
-}
-
-// GetEurekaConfig is a helper method to define mock.On call
-//   - chainID string
-func (_e *MockConfigReader_Expecter) GetEurekaConfig(chainID interface{}) *MockConfigReader_GetEurekaConfig_Call {
-	return &MockConfigReader_GetEurekaConfig_Call{Call: _e.mock.On("GetEurekaConfig", chainID)}
-}
-
-func (_c *MockConfigReader_GetEurekaConfig_Call) Run(run func(chainID string)) *MockConfigReader_GetEurekaConfig_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(string))
-	})
-	return _c
-}
-
-func (_c *MockConfigReader_GetEurekaConfig_Call) Return(_a0 *config.EurekaConfig, _a1 error) *MockConfigReader_GetEurekaConfig_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *MockConfigReader_GetEurekaConfig_Call) RunAndReturn(run func(string) (*config.EurekaConfig, error)) *MockConfigReader_GetEurekaConfig_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// GetEurekaProofRelayerConfig provides a mock function with no fields
-func (_m *MockConfigReader) GetEurekaProofRelayerConfig() config.EurekaProofAPIConfig {
-	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetEurekaProofRelayerConfig")
-	}
-
-	var r0 config.EurekaProofAPIConfig
-	if rf, ok := ret.Get(0).(func() config.EurekaProofAPIConfig); ok {
-		r0 = rf()
-	} else {
-		r0 = ret.Get(0).(config.EurekaProofAPIConfig)
-	}
-
-	return r0
-}
-
-// MockConfigReader_GetEurekaProofRelayerConfig_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetEurekaProofRelayerConfig'
-type MockConfigReader_GetEurekaProofRelayerConfig_Call struct {
-	*mock.Call
-}
-
-// GetEurekaProofRelayerConfig is a helper method to define mock.On call
-func (_e *MockConfigReader_Expecter) GetEurekaProofRelayerConfig() *MockConfigReader_GetEurekaProofRelayerConfig_Call {
-	return &MockConfigReader_GetEurekaProofRelayerConfig_Call{Call: _e.mock.On("GetEurekaProofRelayerConfig")}
-}
-
-func (_c *MockConfigReader_GetEurekaProofRelayerConfig_Call) Run(run func()) *MockConfigReader_GetEurekaProofRelayerConfig_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *MockConfigReader_GetEurekaProofRelayerConfig_Call) Return(_a0 config.EurekaProofAPIConfig) *MockConfigReader_GetEurekaProofRelayerConfig_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *MockConfigReader_GetEurekaProofRelayerConfig_Call) RunAndReturn(run func() config.EurekaProofAPIConfig) *MockConfigReader_GetEurekaProofRelayerConfig_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // GetGRPCEndpoint provides a mock function with given fields: chainID
 func (_m *MockConfigReader) GetGRPCEndpoint(chainID string) (string, bool, error) {
 	ret := _m.Called(chainID)
@@ -710,6 +560,156 @@ func (_c *MockConfigReader_GetGRPCEndpoint_Call) Return(_a0 string, _a1 bool, _a
 }
 
 func (_c *MockConfigReader_GetGRPCEndpoint_Call) RunAndReturn(run func(string) (string, bool, error)) *MockConfigReader_GetGRPCEndpoint_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetIBCV2Chains provides a mock function with no fields
+func (_m *MockConfigReader) GetIBCV2Chains() []config.ChainConfig {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetIBCV2Chains")
+	}
+
+	var r0 []config.ChainConfig
+	if rf, ok := ret.Get(0).(func() []config.ChainConfig); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]config.ChainConfig)
+		}
+	}
+
+	return r0
+}
+
+// MockConfigReader_GetIBCV2Chains_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetIBCV2Chains'
+type MockConfigReader_GetIBCV2Chains_Call struct {
+	*mock.Call
+}
+
+// GetIBCV2Chains is a helper method to define mock.On call
+func (_e *MockConfigReader_Expecter) GetIBCV2Chains() *MockConfigReader_GetIBCV2Chains_Call {
+	return &MockConfigReader_GetIBCV2Chains_Call{Call: _e.mock.On("GetIBCV2Chains")}
+}
+
+func (_c *MockConfigReader_GetIBCV2Chains_Call) Run(run func()) *MockConfigReader_GetIBCV2Chains_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *MockConfigReader_GetIBCV2Chains_Call) Return(_a0 []config.ChainConfig) *MockConfigReader_GetIBCV2Chains_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockConfigReader_GetIBCV2Chains_Call) RunAndReturn(run func() []config.ChainConfig) *MockConfigReader_GetIBCV2Chains_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetIBCV2Config provides a mock function with given fields: chainID
+func (_m *MockConfigReader) GetIBCV2Config(chainID string) (*config.IBCV2Config, error) {
+	ret := _m.Called(chainID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetIBCV2Config")
+	}
+
+	var r0 *config.IBCV2Config
+	var r1 error
+	if rf, ok := ret.Get(0).(func(string) (*config.IBCV2Config, error)); ok {
+		return rf(chainID)
+	}
+	if rf, ok := ret.Get(0).(func(string) *config.IBCV2Config); ok {
+		r0 = rf(chainID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*config.IBCV2Config)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(chainID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockConfigReader_GetIBCV2Config_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetIBCV2Config'
+type MockConfigReader_GetIBCV2Config_Call struct {
+	*mock.Call
+}
+
+// GetIBCV2Config is a helper method to define mock.On call
+//   - chainID string
+func (_e *MockConfigReader_Expecter) GetIBCV2Config(chainID interface{}) *MockConfigReader_GetIBCV2Config_Call {
+	return &MockConfigReader_GetIBCV2Config_Call{Call: _e.mock.On("GetIBCV2Config", chainID)}
+}
+
+func (_c *MockConfigReader_GetIBCV2Config_Call) Run(run func(chainID string)) *MockConfigReader_GetIBCV2Config_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(string))
+	})
+	return _c
+}
+
+func (_c *MockConfigReader_GetIBCV2Config_Call) Return(_a0 *config.IBCV2Config, _a1 error) *MockConfigReader_GetIBCV2Config_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockConfigReader_GetIBCV2Config_Call) RunAndReturn(run func(string) (*config.IBCV2Config, error)) *MockConfigReader_GetIBCV2Config_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetIBCV2ProofRelayerConfig provides a mock function with no fields
+func (_m *MockConfigReader) GetIBCV2ProofRelayerConfig() config.IBCV2ProofAPIConfig {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetIBCV2ProofRelayerConfig")
+	}
+
+	var r0 config.IBCV2ProofAPIConfig
+	if rf, ok := ret.Get(0).(func() config.IBCV2ProofAPIConfig); ok {
+		r0 = rf()
+	} else {
+		r0 = ret.Get(0).(config.IBCV2ProofAPIConfig)
+	}
+
+	return r0
+}
+
+// MockConfigReader_GetIBCV2ProofRelayerConfig_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetIBCV2ProofRelayerConfig'
+type MockConfigReader_GetIBCV2ProofRelayerConfig_Call struct {
+	*mock.Call
+}
+
+// GetIBCV2ProofRelayerConfig is a helper method to define mock.On call
+func (_e *MockConfigReader_Expecter) GetIBCV2ProofRelayerConfig() *MockConfigReader_GetIBCV2ProofRelayerConfig_Call {
+	return &MockConfigReader_GetIBCV2ProofRelayerConfig_Call{Call: _e.mock.On("GetIBCV2ProofRelayerConfig")}
+}
+
+func (_c *MockConfigReader_GetIBCV2ProofRelayerConfig_Call) Run(run func()) *MockConfigReader_GetIBCV2ProofRelayerConfig_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *MockConfigReader_GetIBCV2ProofRelayerConfig_Call) Return(_a0 config.IBCV2ProofAPIConfig) *MockConfigReader_GetIBCV2ProofRelayerConfig_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockConfigReader_GetIBCV2ProofRelayerConfig_Call) RunAndReturn(run func() config.IBCV2ProofAPIConfig) *MockConfigReader_GetIBCV2ProofRelayerConfig_Call {
 	_c.Call.Return(run)
 	return _c
 }

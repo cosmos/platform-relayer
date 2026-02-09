@@ -1,4 +1,4 @@
-# Manually Sending+Relaying Eureka & CCTP Transfers
+# Manually Sending+Relaying IBC v2 & CCTP Transfers
 
 ## Installation
 
@@ -23,7 +23,7 @@ The following usage will assume that the `transfer` binary is in your `$PATH`.
 
 ## Usage
 
-### Eureka Transfers
+### IBC v2 Transfers
 
 The following flags are required:
 
@@ -40,12 +40,12 @@ The following flags are required:
 
 A command following the above flags is required (**the command must be specified after the flags**):
 
-- `eureka`: Send the transfer over the `eureka` bridge.
+- `ibcv2`: Send the transfer over the `ibcv2` bridge.
 
 #### Examples
 
-1. Send + Relay a Eureka Transfer of ATOM From Ethereum to Cosmos Hub
+1. Send + Relay an IBC v2 Transfer of ATOM From Ethereum to Cosmos Hub
 
 ```bash
-transfer --source-chain-id 1 --dest-chain-id cosmoshub-4 --source-client-id cosmoshub-0 --denom 0xbf6Bc6782f7EB580312CC09B976e9329f3e027B3 --amount 1 --memo "" --receiver cosmos1vu55xd53m64932dzqffz29wekmrsr7tt77j2vv eureka
+transfer --source-chain-id 1 --dest-chain-id cosmoshub-4 --source-client-id cosmoshub-0 --denom 0xbf6Bc6782f7EB580312CC09B976e9329f3e027B3 --amount 1 --memo "" --receiver cosmos1vu55xd53m64932dzqffz29wekmrsr7tt77j2vv ibcv2
 ```

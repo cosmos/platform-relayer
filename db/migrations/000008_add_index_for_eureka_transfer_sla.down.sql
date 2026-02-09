@@ -1,1 +1,0 @@
-DROP INDEX idx_eureka_transfers_recv_time_chain_ids;

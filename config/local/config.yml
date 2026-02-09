@@ -11,7 +11,7 @@ coingecko:
   api_key: 'COINGECKO_API_KEY'
   requests_per_minute: 500
   cache_refresh_interval: '5m'
-eureka_proof_api:
+ibcv2_proof_api:
   grpc_address: localhost:8888
   grpc_tls_enabled: false
 chains:
@@ -24,12 +24,12 @@ chains:
     gas_token_coingecko_id: 'cosmos'
     gas_token_decimals: 6
     signer_gas_alert_thresholds:
-      eureka:
+      ibcv2:
         warning_threshold: 10000000 # 10 atom
         critical_threshold: 0
     supported_bridges:
-      - eureka
-    eureka:
+      - ibcv2
+    ibcv2:
       ack_batch_size: 100
       ack_batch_concurrency: 1
       recv_batch_size: 100
@@ -41,20 +41,20 @@ chains:
       counterparty_chains:
         08-wasm-262: '11155111'
         08-wasm-301: '1'
-      eureka_payment_address: 'cosmos12aek9vdksx4hfrs4hg70y4pp7vgr9mj66e4mz0'
+      ibcv2_payment_address: 'cosmos12aek9vdksx4hfrs4hg70y4pp7vgr9mj66e4mz0'
       should_relay_success_acks: false
       should_relay_error_acks: false
       packet_timeout_window_minimum: 10h
       auto_update_clients: true
     cosmos:
       gas_price: 0.005
-      eureka_tx_fee_denom: 'uatom'
+      ibcv2_tx_fee_denom: 'uatom'
       address_prefix: 'cosmos'
       rpc: 'TENDERMINT_RPC'
       grpc: 'COSMOS_SDK_GRPC'
       grpc_tls_enabled: false
       fee:
-        eureka_recv_packet_gas_cost_usd: .10
+        ibcv2_recv_packet_gas_cost_usd: .10
   ethereum-testnet:
     chain_name: 'sepolia'
     chain_id: '11155111'
@@ -65,17 +65,17 @@ chains:
     gas_token_decimals: 18
     unprofitable_relay_threshold: 0
     supported_bridges:
-      - eureka
+      - ibcv2
     signer_gas_alert_thresholds:
-      eureka:
+      ibcv2:
         warning_threshold: 1000000000000000000 # 1 eth
         critical_threshold: 500000000000000000 # 0.5 eth
-    eureka:
+    ibcv2:
       timeout_batch_timeout: 1m
       counterparty_chains:
         hub-testnet-0: 'provider'
         ledger-testnet-2: 'ledger-testnet-1'
-      eureka_payment_address: '0x2d574c3f25EFB98df6340E66a778318FE6592E30'
+      ibcv2_payment_address: '0x2d574c3f25EFB98df6340E66a778318FE6592E30'
       should_only_relay_error_acks: true
       should_relay_success_acks: false
       should_relay_error_acks: true
@@ -90,7 +90,6 @@ chains:
         ics_26_router_address: 0x3fcBB8b5d85FB5F77603e11536b5E90FeE37e6c0
         ics_20_transfer_address: 0x3a4e076D1c5EBfC813993c497Bb284598121b515
         usdc_erc20_address: 0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238
-        eureka_handler_address: 0x46914a36365EC16600D81880903f3e95dcea3e5D
   ethereum:
     chain_name: 'ethereum'
     chain_id: '1'
@@ -100,7 +99,7 @@ chains:
     gas_token_coingecko_id: 'ethereum'
     gas_token_decimals: 18
     supported_bridges:
-      - eureka
+      - ibcv2
     signer_gas_balance:
       warning_threshold_wei: 4290000000000000000
       critical_threshold_wei: 1430000000000000000

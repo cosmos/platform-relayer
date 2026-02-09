@@ -1,4 +1,4 @@
-module github.com/cosmos/eureka-relayer
+module github.com/cosmos/platform-relayer
 
 go 1.24.0
 

@@ -14,7 +14,7 @@ import (
 type BridgeType string
 
 const (
-	BridgeTypeEureka BridgeType = "eureka"
+	BridgeTypeIbcv2 BridgeType = "ibcv2"
 )
 
 func (e *BridgeType) Scan(src interface{}) error {
@@ -52,123 +52,123 @@ func (ns NullBridgeType) Value() (driver.Value, error) {
 	return string(ns.BridgeType), nil
 }
 
-type EurekaRelayStatus string
+type Ibcv2RelayStatus string
 
 const (
-	EurekaRelayStatusPENDING                     EurekaRelayStatus = "PENDING"
-	EurekaRelayStatusCHECKRECVPACKETDELIVERY     EurekaRelayStatus = "CHECK_RECV_PACKET_DELIVERY"
-	EurekaRelayStatusGETRECVPACKET               EurekaRelayStatus = "GET_RECV_PACKET"
-	EurekaRelayStatusDELIVERRECVPACKET           EurekaRelayStatus = "DELIVER_RECV_PACKET"
-	EurekaRelayStatusWAITFORWRITEACK             EurekaRelayStatus = "WAIT_FOR_WRITE_ACK"
-	EurekaRelayStatusCHECKACKPACKETDELIVERY      EurekaRelayStatus = "CHECK_ACK_PACKET_DELIVERY"
-	EurekaRelayStatusGETACKPACKET                EurekaRelayStatus = "GET_ACK_PACKET"
-	EurekaRelayStatusDELIVERACKPACKET            EurekaRelayStatus = "DELIVER_ACK_PACKET"
-	EurekaRelayStatusCHECKTIMEOUTPACKETDELIVERY  EurekaRelayStatus = "CHECK_TIMEOUT_PACKET_DELIVERY"
-	EurekaRelayStatusGETTIMEOUTPACKET            EurekaRelayStatus = "GET_TIMEOUT_PACKET"
-	EurekaRelayStatusDELIVERTIMEOUTPACKET        EurekaRelayStatus = "DELIVER_TIMEOUT_PACKET"
-	EurekaRelayStatusCOMPLETEWITHACK             EurekaRelayStatus = "COMPLETE_WITH_ACK"
-	EurekaRelayStatusCOMPLETEWITHTIMEOUT         EurekaRelayStatus = "COMPLETE_WITH_TIMEOUT"
-	EurekaRelayStatusFAILED                      EurekaRelayStatus = "FAILED"
-	EurekaRelayStatusAWAITINGSENDFINALITY        EurekaRelayStatus = "AWAITING_SEND_FINALITY"
-	EurekaRelayStatusAWAITINGWRITEACKFINALITY    EurekaRelayStatus = "AWAITING_WRITE_ACK_FINALITY"
-	EurekaRelayStatusCOMPLETEWITHWRITEACKSUCCESS EurekaRelayStatus = "COMPLETE_WITH_WRITE_ACK_SUCCESS"
-	EurekaRelayStatusAWAITINGTIMEOUTFINALITY     EurekaRelayStatus = "AWAITING_TIMEOUT_FINALITY"
-	EurekaRelayStatusCOMPLETEWITHWRITEACKERROR   EurekaRelayStatus = "COMPLETE_WITH_WRITE_ACK_ERROR"
-	EurekaRelayStatusCALCULATINGRECVTXGASCOST    EurekaRelayStatus = "CALCULATING_RECV_TX_GAS_COST"
-	EurekaRelayStatusCALCULATINGACKTXGASCOST     EurekaRelayStatus = "CALCULATING_ACK_TX_GAS_COST"
-	EurekaRelayStatusCALCULATINGTIMEOUTTXGASCOST EurekaRelayStatus = "CALCULATING_TIMEOUT_TX_GAS_COST"
+	Ibcv2RelayStatusPENDING                     Ibcv2RelayStatus = "PENDING"
+	Ibcv2RelayStatusCHECKRECVPACKETDELIVERY     Ibcv2RelayStatus = "CHECK_RECV_PACKET_DELIVERY"
+	Ibcv2RelayStatusGETRECVPACKET               Ibcv2RelayStatus = "GET_RECV_PACKET"
+	Ibcv2RelayStatusDELIVERRECVPACKET           Ibcv2RelayStatus = "DELIVER_RECV_PACKET"
+	Ibcv2RelayStatusWAITFORWRITEACK             Ibcv2RelayStatus = "WAIT_FOR_WRITE_ACK"
+	Ibcv2RelayStatusCHECKACKPACKETDELIVERY      Ibcv2RelayStatus = "CHECK_ACK_PACKET_DELIVERY"
+	Ibcv2RelayStatusGETACKPACKET                Ibcv2RelayStatus = "GET_ACK_PACKET"
+	Ibcv2RelayStatusDELIVERACKPACKET            Ibcv2RelayStatus = "DELIVER_ACK_PACKET"
+	Ibcv2RelayStatusCHECKTIMEOUTPACKETDELIVERY  Ibcv2RelayStatus = "CHECK_TIMEOUT_PACKET_DELIVERY"
+	Ibcv2RelayStatusGETTIMEOUTPACKET            Ibcv2RelayStatus = "GET_TIMEOUT_PACKET"
+	Ibcv2RelayStatusDELIVERTIMEOUTPACKET        Ibcv2RelayStatus = "DELIVER_TIMEOUT_PACKET"
+	Ibcv2RelayStatusCOMPLETEWITHACK             Ibcv2RelayStatus = "COMPLETE_WITH_ACK"
+	Ibcv2RelayStatusCOMPLETEWITHTIMEOUT         Ibcv2RelayStatus = "COMPLETE_WITH_TIMEOUT"
+	Ibcv2RelayStatusFAILED                      Ibcv2RelayStatus = "FAILED"
+	Ibcv2RelayStatusAWAITINGSENDFINALITY        Ibcv2RelayStatus = "AWAITING_SEND_FINALITY"
+	Ibcv2RelayStatusAWAITINGWRITEACKFINALITY    Ibcv2RelayStatus = "AWAITING_WRITE_ACK_FINALITY"
+	Ibcv2RelayStatusCOMPLETEWITHWRITEACKSUCCESS Ibcv2RelayStatus = "COMPLETE_WITH_WRITE_ACK_SUCCESS"
+	Ibcv2RelayStatusAWAITINGTIMEOUTFINALITY     Ibcv2RelayStatus = "AWAITING_TIMEOUT_FINALITY"
+	Ibcv2RelayStatusCOMPLETEWITHWRITEACKERROR   Ibcv2RelayStatus = "COMPLETE_WITH_WRITE_ACK_ERROR"
+	Ibcv2RelayStatusCALCULATINGRECVTXGASCOST    Ibcv2RelayStatus = "CALCULATING_RECV_TX_GAS_COST"
+	Ibcv2RelayStatusCALCULATINGACKTXGASCOST     Ibcv2RelayStatus = "CALCULATING_ACK_TX_GAS_COST"
+	Ibcv2RelayStatusCALCULATINGTIMEOUTTXGASCOST Ibcv2RelayStatus = "CALCULATING_TIMEOUT_TX_GAS_COST"
 )
 
-func (e *EurekaRelayStatus) Scan(src interface{}) error {
+func (e *Ibcv2RelayStatus) Scan(src interface{}) error {
 	switch s := src.(type) {
 	case []byte:
-		*e = EurekaRelayStatus(s)
+		*e = Ibcv2RelayStatus(s)
 	case string:
-		*e = EurekaRelayStatus(s)
+		*e = Ibcv2RelayStatus(s)
 	default:
-		return fmt.Errorf("unsupported scan type for EurekaRelayStatus: %T", src)
+		return fmt.Errorf("unsupported scan type for Ibcv2RelayStatus: %T", src)
 	}
 	return nil
 }
 
-type NullEurekaRelayStatus struct {
-	EurekaRelayStatus EurekaRelayStatus
-	Valid             bool // Valid is true if EurekaRelayStatus is not NULL
+type NullIbcv2RelayStatus struct {
+	Ibcv2RelayStatus Ibcv2RelayStatus
+	Valid            bool // Valid is true if Ibcv2RelayStatus is not NULL
 }
 
 // Scan implements the Scanner interface.
-func (ns *NullEurekaRelayStatus) Scan(value interface{}) error {
+func (ns *NullIbcv2RelayStatus) Scan(value interface{}) error {
 	if value == nil {
-		ns.EurekaRelayStatus, ns.Valid = "", false
+		ns.Ibcv2RelayStatus, ns.Valid = "", false
 		return nil
 	}
 	ns.Valid = true
-	return ns.EurekaRelayStatus.Scan(value)
+	return ns.Ibcv2RelayStatus.Scan(value)
 }
 
 // Value implements the driver Valuer interface.
-func (ns NullEurekaRelayStatus) Value() (driver.Value, error) {
+func (ns NullIbcv2RelayStatus) Value() (driver.Value, error) {
 	if !ns.Valid {
 		return nil, nil
 	}
-	return string(ns.EurekaRelayStatus), nil
+	return string(ns.Ibcv2RelayStatus), nil
 }
 
-type EurekaWriteAckStatus string
+type Ibcv2WriteAckStatus string
 
 const (
-	EurekaWriteAckStatusSUCCESS EurekaWriteAckStatus = "SUCCESS"
-	EurekaWriteAckStatusERROR   EurekaWriteAckStatus = "ERROR"
-	EurekaWriteAckStatusUNKNOWN EurekaWriteAckStatus = "UNKNOWN"
+	Ibcv2WriteAckStatusSUCCESS Ibcv2WriteAckStatus = "SUCCESS"
+	Ibcv2WriteAckStatusERROR   Ibcv2WriteAckStatus = "ERROR"
+	Ibcv2WriteAckStatusUNKNOWN Ibcv2WriteAckStatus = "UNKNOWN"
 )
 
-func (e *EurekaWriteAckStatus) Scan(src interface{}) error {
+func (e *Ibcv2WriteAckStatus) Scan(src interface{}) error {
 	switch s := src.(type) {
 	case []byte:
-		*e = EurekaWriteAckStatus(s)
+		*e = Ibcv2WriteAckStatus(s)
 	case string:
-		*e = EurekaWriteAckStatus(s)
+		*e = Ibcv2WriteAckStatus(s)
 	default:
-		return fmt.Errorf("unsupported scan type for EurekaWriteAckStatus: %T", src)
+		return fmt.Errorf("unsupported scan type for Ibcv2WriteAckStatus: %T", src)
 	}
 	return nil
 }
 
-type NullEurekaWriteAckStatus struct {
-	EurekaWriteAckStatus EurekaWriteAckStatus
-	Valid                bool // Valid is true if EurekaWriteAckStatus is not NULL
+type NullIbcv2WriteAckStatus struct {
+	Ibcv2WriteAckStatus Ibcv2WriteAckStatus
+	Valid               bool // Valid is true if Ibcv2WriteAckStatus is not NULL
 }
 
 // Scan implements the Scanner interface.
-func (ns *NullEurekaWriteAckStatus) Scan(value interface{}) error {
+func (ns *NullIbcv2WriteAckStatus) Scan(value interface{}) error {
 	if value == nil {
-		ns.EurekaWriteAckStatus, ns.Valid = "", false
+		ns.Ibcv2WriteAckStatus, ns.Valid = "", false
 		return nil
 	}
 	ns.Valid = true
-	return ns.EurekaWriteAckStatus.Scan(value)
+	return ns.Ibcv2WriteAckStatus.Scan(value)
 }
 
 // Value implements the driver Valuer interface.
-func (ns NullEurekaWriteAckStatus) Value() (driver.Value, error) {
+func (ns NullIbcv2WriteAckStatus) Value() (driver.Value, error) {
 	if !ns.Valid {
 		return nil, nil
 	}
-	return string(ns.EurekaWriteAckStatus), nil
+	return string(ns.Ibcv2WriteAckStatus), nil
 }
 
-type EurekaRelaySubmission struct {
+type Ibcv2RelaySubmission struct {
 	ID            int32
 	SourceChainID string
 	SourceTxHash  string
 	CreatedAt     pgtype.Timestamptz
 }
 
-type EurekaTransfer struct {
+type Ibcv2Transfer struct {
 	ID                        int32
 	CreatedAt                 pgtype.Timestamp
 	UpdatedAt                 pgtype.Timestamp
-	Status                    EurekaRelayStatus
+	Status                    Ibcv2RelayStatus
 	StatusText                pgtype.Text
 	SourceChainID             string
 	DestinationChainID        string
@@ -186,7 +186,7 @@ type EurekaTransfer struct {
 	AckTxTime                 pgtype.Timestamp
 	TimeoutTxHash             pgtype.Text
 	TimeoutTxTime             pgtype.Timestamp
-	WriteAckStatus            NullEurekaWriteAckStatus
+	WriteAckStatus            NullIbcv2WriteAckStatus
 	RecvTxGasCostUsd          pgtype.Numeric
 	AckTxGasCostUsd           pgtype.Numeric
 	TimeoutTxGasCostUsd       pgtype.Numeric
