@@ -10,9 +10,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authSigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
-	signerservice "github.com/cosmos/eureka-relayer/proto/gen/signer"
-	"github.com/cosmos/eureka-relayer/shared/config"
-	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -20,6 +17,10 @@ import (
 	"github.com/gagliardetto/solana-go"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/metadata"
+
+	signerservice "github.com/cosmos/platform-relayer/proto/gen/signer"
+	"github.com/cosmos/platform-relayer/shared/config"
+	"github.com/cosmos/platform-relayer/shared/lmt"
 )
 
 var serviceAccountToken = config.GetServiceAccountToken()

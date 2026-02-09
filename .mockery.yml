@@ -4,50 +4,50 @@ dir: "mocks/{{.InterfaceDirRelative}}"
 disable-version-string: true
 packages:
   # Internal Packages
-  github.com/cosmos/eureka-relayer/relayerapi/services/relayerapi:
+  github.com/cosmos/platform-relayer/relayerapi/services/relayerapi:
     interfaces:
       RelayerAPIQueries:
-  github.com/cosmos/eureka-relayer/shared/evmrpc:
+  github.com/cosmos/platform-relayer/shared/evmrpc:
     interfaces:
       EVMRPCClientManager:
       EVMChainRPC:
-  github.com/cosmos/eureka-relayer/shared/http:
+  github.com/cosmos/platform-relayer/shared/http:
     interfaces:
       Client:
-  github.com/cosmos/eureka-relayer/shared/messagequeue/transactionqueue:
+  github.com/cosmos/platform-relayer/shared/messagequeue/transactionqueue:
     interfaces:
       ProducerTransactionQueue:
-  github.com/cosmos/eureka-relayer/shared/tmrpc:
+  github.com/cosmos/platform-relayer/shared/tmrpc:
     interfaces:
       TendermintRPCClientManager:
       TendermintRPCQuerier:
-  github.com/cosmos/eureka-relayer/shared/signing:
+  github.com/cosmos/platform-relayer/shared/signing:
     interfaces:
       Signer:
-  github.com/cosmos/eureka-relayer/shared/clients/coingecko:
+  github.com/cosmos/platform-relayer/shared/clients/coingecko:
     interfaces:
       PriceClient:
-  github.com/cosmos/eureka-relayer/shared/clients/utils:
+  github.com/cosmos/platform-relayer/shared/clients/utils:
     interfaces:
       HTTPClient:
       RateLimiter:
-  github.com/cosmos/eureka-relayer/shared/bridges/eureka:
+  github.com/cosmos/platform-relayer/shared/bridges/ibcv2:
     interfaces:
       BridgeClient:
-  github.com/cosmos/eureka-relayer/shared/config:
+  github.com/cosmos/platform-relayer/shared/config:
     interfaces:
       ConfigReader:
-  github.com/cosmos/eureka-relayer/relayer/eureka:
+  github.com/cosmos/platform-relayer/relayer/ibcv2:
     interfaces:
-      EurekaProcessor:
-      EurekaBatchProcessor:
+      IBCV2Processor:
+      IBCV2BatchProcessor:
       TransferStateStorage:
-      UnfinishedEurekaTransferStorage:
+      UnfinishedIBCV2TransferStorage:
       Storage:
       BridgeClientManager:
       PipelineManager:
       PriceClient:
-  github.com/cosmos/eureka-relayer/proto/gen/eurekarelayer:
+  github.com/cosmos/platform-relayer/proto/gen/ibcv2relayer:
     interfaces:
       RelayerServiceClient:
 

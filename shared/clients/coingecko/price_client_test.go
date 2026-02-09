@@ -6,10 +6,11 @@ import (
 	"testing"
 	"time"
 
-	coingeckomocks "github.com/cosmos/eureka-relayer/mocks/shared/clients/coingecko"
-	"github.com/cosmos/eureka-relayer/shared/clients/coingecko"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
+
+	coingeckomocks "github.com/cosmos/platform-relayer/mocks/shared/clients/coingecko"
+	"github.com/cosmos/platform-relayer/shared/clients/coingecko"
 )
 
 type CachedPriceClientTestSuite struct {

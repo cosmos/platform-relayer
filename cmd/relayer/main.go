@@ -11,27 +11,28 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/cosmos/eureka-relayer/db/gen/db"
-	"github.com/cosmos/eureka-relayer/db/tx"
-	"github.com/cosmos/eureka-relayer/gasmonitor"
-	"github.com/cosmos/eureka-relayer/proto/gen/eurekarelayer"
-	"github.com/cosmos/eureka-relayer/relayer/eureka"
-	"github.com/cosmos/eureka-relayer/relayerapi/server"
-	"github.com/cosmos/eureka-relayer/shared/clients/coingecko"
-	"github.com/cosmos/eureka-relayer/shared/config"
-	"github.com/cosmos/eureka-relayer/shared/database"
-	"github.com/cosmos/eureka-relayer/shared/lmt"
-	"github.com/cosmos/eureka-relayer/shared/metrics"
 	"go.uber.org/zap"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
+
+	"github.com/cosmos/platform-relayer/db/gen/db"
+	"github.com/cosmos/platform-relayer/db/tx"
+	"github.com/cosmos/platform-relayer/gasmonitor"
+	"github.com/cosmos/platform-relayer/proto/gen/ibcv2relayer"
+	"github.com/cosmos/platform-relayer/relayer/ibcv2"
+	"github.com/cosmos/platform-relayer/relayerapi/server"
+	"github.com/cosmos/platform-relayer/shared/clients/coingecko"
+	"github.com/cosmos/platform-relayer/shared/config"
+	"github.com/cosmos/platform-relayer/shared/database"
+	"github.com/cosmos/platform-relayer/shared/lmt"
+	"github.com/cosmos/platform-relayer/shared/metrics"
 )
 
 var (
 	configPath           = flag.String("config", "./config/local/config.yml", "path to relayer config file")
-	enableEurekaRelaying = flag.Bool("eureka-relaying", true, "if eureka relaying should be enabled")
+	enableIBCV2Relaying = flag.Bool("ibcv2-relaying", true, "if ibcv2 relaying should be enabled")
 )
 
 func main() {
@@ -57,13 +58,13 @@ func main() {
 		lmt.Logger(ctx).Fatal("Unable to connect to database: %v", zap.Error(err))
 	}
 
-	var eurekaClientManager eureka.BridgeClientManager
-	var eurekaChainIDToPrivateKey map[string]string
+	var ibcv2ClientManager ibcv2.BridgeClientManager
+	var ibcv2ChainIDToPrivateKey map[string]string
 	var signerConn *grpc.ClientConn
 
 	signing := cfg.Signing
 	if signing.GRPCAddress != "" {
-		lmt.Logger(ctx).Info("Remote signer configured for Eureka relayer",
+		lmt.Logger(ctx).Info("Remote signer configured for Relayer",
 			zap.String("grpc_address", signing.GRPCAddress),
 			zap.String("cosmos_wallet_id", signing.CosmosWalletKey),
 			zap.String("evm_wallet_id", signing.EVMWalletKey))
@@ -82,27 +83,27 @@ func main() {
 	} else if signing.KeysPath != "" {
 		keys, err := LoadChainIDToPrivateKeyMap(signing.KeysPath)
 		if err != nil {
-			lmt.Logger(ctx).Fatal("Failed to load chain id -> private key map for eureka", zap.Error(err))
+			lmt.Logger(ctx).Fatal("Failed to load chain id -> private key map for ibcv2", zap.Error(err))
 		}
-		eurekaChainIDToPrivateKey = keys
+		ibcv2ChainIDToPrivateKey = keys
 		lmt.Logger(ctx).Info("Using local keys for signing", zap.String("keys_path", signing.KeysPath))
 	} else {
 		lmt.Logger(ctx).Fatal("No signing configuration: set either signing.grpc_address or signing.keys_path")
 	}
 
-	eurekaClientManager, err = eureka.NewClientManagerFromConfig(
+	ibcv2ClientManager, err = ibcv2.NewClientManagerFromConfig(
 		ctx,
-		eurekaChainIDToPrivateKey,
+		ibcv2ChainIDToPrivateKey,
 		signerConn,
 		signing.CosmosWalletKey,
 		signing.EVMWalletKey,
-		config.GetConfigReader(ctx).GetEurekaChains()...,
+		config.GetConfigReader(ctx).GetIBCV2Chains()...,
 	)
 	if err != nil {
-		lmt.Logger(ctx).Fatal("error creating eureka client manager from config", zap.Error(err))
+		lmt.Logger(ctx).Fatal("error creating ibcv2 client manager from config", zap.Error(err))
 	}
 
-	var coingeckoClient eureka.PriceClient
+	var coingeckoClient ibcv2.PriceClient
 	coingeckoConfig := config.GetConfigReader(ctx).GetCoingeckoConfig()
 	if coingeckoConfig.APIKey != "" {
 		coingeckoClient = coingecko.NewCachedPriceClient(coingecko.DefaultCoingeckoClient(coingeckoConfig), coingeckoConfig.CacheRefreshInterval)
@@ -120,7 +121,7 @@ func main() {
 
 	eg.Go(func() error {
 		apiConfig := config.GetConfigReader(ctx).GetRelayerAPIConfig()
-		grpcServer, err := server.NewRelayerGRPCServer(ctx, pool, eurekaClientManager, apiConfig.Address)
+		grpcServer, err := server.NewRelayerGRPCServer(ctx, pool, ibcv2ClientManager, apiConfig.Address)
 		if err != nil {
 			return err
 		}
@@ -129,7 +130,7 @@ func main() {
 	})
 
 	eg.Go(func() error {
-		gasMonitor := gasmonitor.NewGasMonitor(eurekaClientManager)
+		gasMonitor := gasmonitor.NewGasMonitor(ibcv2ClientManager)
 		err := gasMonitor.Start(ctx)
 		if err != nil {
 			return fmt.Errorf("creating gas monitor: %w", err)
@@ -138,7 +139,7 @@ func main() {
 	})
 
 	// create connection to proof relayer
-	proofRelayerConfig := config.GetConfigReader(ctx).GetEurekaProofRelayerConfig()
+	proofRelayerConfig := config.GetConfigReader(ctx).GetIBCV2ProofRelayerConfig()
 
 	var opts []grpc.DialOption
 	if !proofRelayerConfig.GRPCTLSEnabled {
@@ -159,22 +160,22 @@ func main() {
 		)
 	}
 
-	relayer := eurekarelayer.NewRelayerServiceClient(conn)
+	relayer := ibcv2relayer.NewRelayerServiceClient(conn)
 	defer conn.Close()
 
-	// create storage for eureka transactions
+	// create storage for ibcv2 transactions
 	storage := tx.New(db.New(pool), pool)
 
 	// create a pipeline manager to create new pipelines for new packet
 	// transfer paths
-	manager := eureka.NewEurekaPipelineManager(storage, eurekaClientManager, relayer, coingeckoClient)
+	manager := ibcv2.NewIBCV2PipelineManager(storage, ibcv2ClientManager, relayer, coingeckoClient)
 
 	// create relay dispatcher to submit relays to the pipeline from storage
-	dispatcher := eureka.NewRelayDispatcher(storage, 5*time.Second, manager, *enableEurekaRelaying)
+	dispatcher := ibcv2.NewRelayDispatcher(storage, 5*time.Second, manager, *enableIBCV2Relaying)
 
 	eg.Go(func() error {
 		if err := dispatcher.Run(ctx); err != nil {
-			return fmt.Errorf("running eureka relayer: %w", err)
+			return fmt.Errorf("running ibcv2 relayer: %w", err)
 		}
 		return nil
 	})

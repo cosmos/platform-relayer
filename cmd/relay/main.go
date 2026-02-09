@@ -7,8 +7,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/cosmos/eureka-relayer/proto/gen/relayerapi"
-	"github.com/cosmos/eureka-relayer/shared/lmt"
+	"github.com/cosmos/platform-relayer/proto/gen/relayerapi"
+	"github.com/cosmos/platform-relayer/shared/lmt"
+
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

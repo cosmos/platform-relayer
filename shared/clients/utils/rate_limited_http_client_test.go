@@ -9,10 +9,11 @@ import (
 	"net/textproto"
 	"testing"
 
-	utilsmock "github.com/cosmos/eureka-relayer/mocks/shared/clients/utils"
-	"github.com/cosmos/eureka-relayer/shared/clients/utils"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
+
+	utilsmock "github.com/cosmos/platform-relayer/mocks/shared/clients/utils"
+	"github.com/cosmos/platform-relayer/shared/clients/utils"
 )
 
 type RateLimitedHTTPClientTestSuite struct {

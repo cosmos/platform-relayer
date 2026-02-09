@@ -7,10 +7,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/cosmos/eureka-relayer/shared/lmt"
 	prom "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
+
+	"github.com/cosmos/platform-relayer/shared/lmt"
 )
 
 func StartPrometheus(ctx context.Context, addr string) error {

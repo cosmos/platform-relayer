@@ -1,2 +1,0 @@
-ALTER TABLE eureka_transfers DROP COLUMN source_tx_finalized_time;
-ALTER TABLE eureka_transfers DROP COLUMN write_ack_tx_finalized_time;

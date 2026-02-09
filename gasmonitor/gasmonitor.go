@@ -6,22 +6,23 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/cosmos/eureka-relayer/relayer/eureka"
-	"github.com/cosmos/eureka-relayer/shared/config"
-	"github.com/cosmos/eureka-relayer/shared/lmt"
-	"github.com/cosmos/eureka-relayer/shared/metrics"
 	"go.uber.org/zap"
+
+	"github.com/cosmos/platform-relayer/relayer/ibcv2"
+	"github.com/cosmos/platform-relayer/shared/config"
+	"github.com/cosmos/platform-relayer/shared/lmt"
+	"github.com/cosmos/platform-relayer/shared/metrics"
 )
 
 type GasMonitor struct {
-	eurkeaClientManager eureka.BridgeClientManager
+	ibcv2ClientManager ibcv2.BridgeClientManager
 }
 
 func NewGasMonitor(
-	eurekaClientManager eureka.BridgeClientManager,
+	ibcv2ClientManager ibcv2.BridgeClientManager,
 ) *GasMonitor {
 	return &GasMonitor{
-		eurkeaClientManager: eurekaClientManager,
+		ibcv2ClientManager: ibcv2ClientManager,
 	}
 }
 
@@ -51,26 +52,26 @@ func (gm *GasMonitor) Start(ctx context.Context) error {
 			return nil
 		case <-ticker.C:
 			for _, chain := range chains {
-				if err = gm.monitorEurekaGasBalances(ctx, chain, chain.ChainID); err != nil && !errors.Is(err, config.ErrNoSignerForBridge) {
-					lmt.Logger(ctx).Error("failed to monitor eureka gas balance", zap.String("chain_id", chain.ChainID), zap.Error(err))
+				if err = gm.monitorIBCV2GasBalances(ctx, chain, chain.ChainID); err != nil && !errors.Is(err, config.ErrNoSignerForBridge) {
+					lmt.Logger(ctx).Error("failed to monitor ibcv2 gas balance", zap.String("chain_id", chain.ChainID), zap.Error(err))
 				}
 			}
 		}
 	}
 }
 
-func (gm *GasMonitor) monitorEurekaGasBalances(ctx context.Context, chain config.ChainConfig, chainID string) error {
-	warningThreshold, criticalThreshold, err := config.GetConfigReader(ctx).GetSignerGasAlertThresholds(chainID, config.BridgeType_EUREKA)
+func (gm *GasMonitor) monitorIBCV2GasBalances(ctx context.Context, chain config.ChainConfig, chainID string) error {
+	warningThreshold, criticalThreshold, err := config.GetConfigReader(ctx).GetSignerGasAlertThresholds(chainID, config.BridgeType_IBCV2)
 	if err != nil {
 		if errors.Is(err, config.ErrNoSignerForBridge) {
 			return nil
 		}
-		return fmt.Errorf("getting eureka signer gas alert thresholds on chain %s: %w", chainID, err)
+		return fmt.Errorf("getting ibcv2 signer gas alert thresholds on chain %s: %w", chainID, err)
 	}
 
-	chainClient, err := gm.eurkeaClientManager.GetClient(ctx, chainID)
+	chainClient, err := gm.ibcv2ClientManager.GetClient(ctx, chainID)
 	if err != nil {
-		return fmt.Errorf("getting eureka client for chain %s: %w", chainID, err)
+		return fmt.Errorf("getting ibcv2 client for chain %s: %w", chainID, err)
 	}
 
 	balance, err := chainClient.SignerGasTokenBalance(ctx)
@@ -82,8 +83,8 @@ func (gm *GasMonitor) monitorEurekaGasBalances(ctx context.Context, chain config
 		return fmt.Errorf("gas balance or alert thresholds are nil for chain %s", chainID)
 	}
 	if balance.Cmp(criticalThreshold) < 0 {
-		lmt.Logger(ctx).Error("low balance on eureka signer", zap.String("balance", balance.String()), zap.String("chainID", chainID))
+		lmt.Logger(ctx).Error("low balance on ibcv2 signer", zap.String("balance", balance.String()), zap.String("chainID", chainID))
 	}
-	metrics.FromContext(ctx).SetGasBalance(chainID, chain.ChainName, chain.GasTokenSymbol, string(chain.Environment), *balance, *warningThreshold, *criticalThreshold, chain.GasTokenDecimals, metrics.EurekaBridgeType)
+	metrics.FromContext(ctx).SetGasBalance(chainID, chain.ChainName, chain.GasTokenSymbol, string(chain.Environment), *balance, *warningThreshold, *criticalThreshold, chain.GasTokenDecimals, metrics.IBCV2BridgeType)
 	return nil
 }

@@ -20,11 +20,11 @@ type (
 )
 
 const (
-	EurekaSendToRecvRelayType    RelayType = "eureka_send_to_recv"
-	EurekaSendToTimeoutRelayType RelayType = "eureka_send_to_timeout"
-	EurekaRecvToAckRelayType     RelayType = "eureka_recv_to_ack"
+	IBCV2SendToRecvRelayType    RelayType = "ibcv2_send_to_recv"
+	IBCV2SendToTimeoutRelayType RelayType = "ibcv2_send_to_timeout"
+	IBCV2RecvToAckRelayType     RelayType = "ibcv2_recv_to_ack"
 
-	EurekaBridgeType BridgeType = "eureka"
+	IBCV2BridgeType BridgeType = "ibcv2"
 
 	SuccessStatus = "success"
 	FailureStatus = "failure"
@@ -51,7 +51,6 @@ const (
 	bridgeTypeLabel           = "bridge_type"
 	sourceClientIDLabel       = "source_client_id"
 	destinationClientIDLabel  = "destination_client_id"
-	invalidPaymentReasonLabel = "invalid_payment_reason_label"
 )
 
 type Metrics interface {
@@ -243,11 +242,7 @@ type PromMetrics struct {
 	latencyPerRelayerAPIRequest               metrics.Histogram
 	gasBalance                                metrics.Gauge
 	gasBalanceState                           metrics.Gauge
-	totalPaymentVerifierLoops                 metrics.Counter
-	latencyPerPaymentVerifierLoop             metrics.Histogram
 	latencyPerNodeDependencyRequest           metrics.Histogram
-	totalPaymentTxsProcessed                  metrics.Counter
-	totalPaymentsProcessed                    metrics.Counter
 	totalRelayerLoops                         metrics.Counter
 	latencyPerRelayerLoop                     metrics.Histogram
 	latencyPerAttestationAPIRequest           metrics.Histogram
@@ -304,33 +299,12 @@ func NewPromMetrics() Metrics {
 			Name:      "gas_balance_state_gauge",
 			Help:      "gas balance states (0=ok 1=warning 2=critical), paginated by chain",
 		}, []string{chainIDLabel, chainNameLabel, chainEnvironmentLabel, bridgeTypeLabel}),
-		totalPaymentVerifierLoops: prom.NewCounterFrom(stdprom.CounterOpts{
-			Namespace: "relayerapi",
-			Name:      "total_payment_verifier_loops_counter",
-			Help:      "number of payment verifier loops",
-		}, []string{}),
-		latencyPerPaymentVerifierLoop: prom.NewHistogramFrom(stdprom.HistogramOpts{
-			Namespace: "relayerapi",
-			Name:      "latency_per_payment_verifier_loop",
-			Help:      "latency per payment verifier loop in milliseconds",
-			Buckets:   []float64{5, 10, 25, 50, 75, 100, 150, 200, 300, 500, 750, 1000, 1500, 3000, 5000, 10000, 20000},
-		}, []string{}),
 		latencyPerNodeDependencyRequest: prom.NewHistogramFrom(stdprom.HistogramOpts{
 			Namespace: "relayerapi",
 			Name:      "latency_per_node_dependency_request",
 			Help:      "latency per node dependency request in milliseconds, paginated by chain id and method",
 			Buckets:   []float64{5, 10, 25, 50, 75, 100, 150, 200, 300, 500, 750, 1000, 1500, 3000, 5000, 10000, 20000},
 		}, []string{chainIDLabel, chainNameLabel, chainEnvironmentLabel, methodLabel}),
-		totalPaymentTxsProcessed: prom.NewCounterFrom(stdprom.CounterOpts{
-			Namespace: "relayerapi",
-			Name:      "total_payment_txs_processed_counter",
-			Help:      "number of payment txs processed, paginated by source chain id and status",
-		}, []string{statusLabel, sourceChainIDLabel, sourceChainNameLabel, chainEnvironmentLabel}),
-		totalPaymentsProcessed: prom.NewCounterFrom(stdprom.CounterOpts{
-			Namespace: "relayerapi",
-			Name:      "total_payments_processed_counter",
-			Help:      "number of payments processed, paginated by source and destination chain id and status",
-		}, []string{statusLabel, sourceChainIDLabel, destinationChainIDLabel, sourceChainNameLabel, destinationChainNameLabel, chainEnvironmentLabel, invalidPaymentReasonLabel, bridgeTypeLabel}),
 		totalRelayerLoops: prom.NewCounterFrom(stdprom.CounterOpts{
 			Namespace: "relayerapi",
 			Name:      "total_relayer_loops_counter",
@@ -392,7 +366,7 @@ func NewPromMetrics() Metrics {
 		latencyPerRelay: prom.NewHistogramFrom(stdprom.HistogramOpts{
 			Namespace: "relayerapi",
 			Name:      "latency_per_relay",
-			Help:      "latency from relay source transaction to relay completion in milliseconds, paginated by source and destination chain id. for eureka transfers, source and destination chain are from the perspective of the packet being relayed",
+			Help:      "latency from relay source transaction to relay completion in milliseconds, paginated by source and destination chain id. for ibcv2 transfers, source and destination chain are from the perspective of the packet being relayed",
 			Buckets:   []float64{1000, 2000, 3000, 4000, 5000, 10000, 15000, 20000, 25000, 30000, 45000, 60000, 90000, 120000, 150000, 180000, 210000, 240000, 270000, 300000, 600000, 900000, 1_200_000, 1_500_000, 1_800_000, 1_920_000, 2_100_000, 2_250_000, 2_400_000, 2_700_000, 3_000_000, 3_300_000, 3_600_000},
 		}, []string{sourceChainIDLabel, destinationChainIDLabel, sourceChainNameLabel, destinationChainNameLabel, chainEnvironmentLabel, relayTypelLabel}),
 		transferMonitorChainHeightIncreaseCounter: prom.NewCounterFrom(stdprom.CounterOpts{
@@ -418,7 +392,7 @@ func NewPromMetrics() Metrics {
 		totalExcessiveRelayLatencyObservations: prom.NewCounterFrom(stdprom.CounterOpts{
 			Namespace: "relayerapi",
 			Name:      "total_excessive_relay_latency_observations",
-			Help:      "number of times excessive relay latency is observed, paginated by source channel and chain environment. for eureka transfers, source and destination chain are from the perspective of the packet being relayed",
+			Help:      "number of times excessive relay latency is observed, paginated by source channel and chain environment. for ibcv2 transfers, source and destination chain are from the perspective of the packet being relayed",
 		}, []string{sourceChainNameLabel, destinationChainNameLabel, chainEnvironmentLabel, relayTypelLabel}),
 		totalRelaysCompleted: prom.NewCounterFrom(stdprom.CounterOpts{
 			Namespace: "relayerapi",

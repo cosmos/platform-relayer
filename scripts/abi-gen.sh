@@ -17,5 +17,3 @@ abigen --abi ./shared/abi/cctp_relayer.json --pkg cctp_relayer --out ./shared/co
 mkdir -p ./shared/contracts/gas_price_oracle
 abigen --abi ./shared/abi/gas_price_oracle.json --pkg gas_price_oracle --out ./shared/contracts/gas_price_oracle/gas_price_oracle.go
 
-mkdir -p ./shared/contracts/eureka_handler
-abigen --abi ./shared/abi/eureka_handler.json --pkg eureka_handler --out ./shared/contracts/eureka_handler/eureka_handler.go

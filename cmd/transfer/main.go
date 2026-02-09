@@ -6,9 +6,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/cosmos/eureka-relayer/shared/config"
-	"github.com/cosmos/eureka-relayer/shared/lmt"
 	"go.uber.org/zap"
+
+	"github.com/cosmos/platform-relayer/shared/config"
+	"github.com/cosmos/platform-relayer/shared/lmt"
 )
 
 func main() {
@@ -25,11 +26,11 @@ func main() {
 	}
 	bridge := flag.Arg(0)
 	switch bridge {
-	case string(config.BridgeType_EUREKA):
-		if err := eurekaTransfer(ctx); err != nil {
-			lmt.Logger(ctx).Error("error sending eureka transfer", zap.Error(err))
+	case string(config.BridgeType_IBCV2):
+		if err := ibcv2Transfer(ctx); err != nil {
+			lmt.Logger(ctx).Error("error sending ibcv2 transfer", zap.Error(err))
 		}
 	default:
-		lmt.Logger(ctx).Error("unexpected bridge type", zap.String("got", bridge), zap.Any("expected", []string{string(config.BridgeType_EUREKA)}))
+		lmt.Logger(ctx).Error("unexpected bridge type", zap.String("got", bridge), zap.Any("expected", []string{string(config.BridgeType_IBCV2)}))
 	}
 }
