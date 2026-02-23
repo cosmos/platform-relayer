@@ -158,7 +158,7 @@ func ibcv2Transfer(ctx context.Context) error {
 	}
 
 	var opts []grpc.DialOption
-	opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})))
+	opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true, MinVersion: tls.VersionTLS13})))
 	conn, err := grpc.NewClient(*relayerGRPCURL, opts...)
 	if err != nil {
 		return fmt.Errorf("creating grpc connection to relayer at %s: %w", *relayerGRPCURL, err)

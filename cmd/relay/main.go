@@ -49,6 +49,7 @@ func main() {
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{
 		InsecureSkipVerify: true,
+		MinVersion:         tls.VersionTLS13,
 	})))
 	conn, err := grpc.NewClient(*relayerGRPCURL, opts...)
 	if err != nil {
