@@ -256,7 +256,8 @@ func createCosmosGRPC(ctx context.Context, chainID string) (grpc.ClientConnInter
 	if !tlsEnabled {
 		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	} else {
-		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})))
+		// InsecureSkipVerify: external chain gRPC endpoints use Tailscale/internal networking where cert validation is not required.
+		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true, MinVersion: tls.VersionTLS13})))
 	}
 	opts = append(opts, grpc.WithUnaryInterceptor(metrics.UnaryClientInterceptor))
 

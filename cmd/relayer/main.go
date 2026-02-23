@@ -145,7 +145,7 @@ func main() {
 	if !proofRelayerConfig.GRPCTLSEnabled {
 		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	} else {
-		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})))
+		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true, MinVersion: tls.VersionTLS13})))
 	}
 	opts = append(opts, grpc.WithUnaryInterceptor(metrics.UnaryClientInterceptor))
 
