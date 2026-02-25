@@ -1,4 +1,4 @@
-module github.com/cosmos/platform-relayer
+module github.com/cosmos/ibc-relayer
 
 go 1.24.0
 

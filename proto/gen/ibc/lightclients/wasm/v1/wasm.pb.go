@@ -7,7 +7,7 @@ import (
 	fmt "fmt"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
-	v1 "github.com/cosmos/platform-relayer/proto/gen/ibc/core/client/v1"
+	v1 "github.com/cosmos/ibc-relayer/proto/gen/ibc/core/client/v1"
 	io "io"
 	math "math"
 	math_bits "math/bits"
